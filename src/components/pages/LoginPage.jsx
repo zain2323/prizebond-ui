@@ -94,6 +94,18 @@ export default function LoginPage() {
         }
     }
 
+    function getPaperHeight() {
+        console.log("executed")
+        if (formData.email.error || 
+            formData.password.error) 
+            {
+                return 540
+            }
+        else {
+            return 500 
+        }
+    }
+
     return (
         <Box
           sx={{
@@ -103,7 +115,7 @@ export default function LoginPage() {
               marginTop: 8,
               marginBottom: 8,
               width: 500,
-              height: 500,
+              height: getPaperHeight,
             },
           }}
         >

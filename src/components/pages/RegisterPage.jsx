@@ -38,7 +38,7 @@ export default function RegisterPage() {
                 ...prev,
                 [name]: {
                   ...prev.name,  
-                  "value": type === "checkbox" ? checked: value
+                  "value": value
                 }
             }
         })
@@ -107,16 +107,28 @@ export default function RegisterPage() {
         }
     }
 
+    function getPaperHeight() {
+        console.log("executed")
+        if (formData.email.error || 
+            formData.password.error ||
+            formData.fullname.error) {
+                return 600
+            }
+        else {
+            return 540 
+        }
+    }
+    
     return (
         <Box
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
             '& > :not(style)': {
-              marginTop: 7,
+              marginTop: 7, 
               marginBottom: 8,
               width: 500,
-              height: 530,
+              height: getPaperHeight(),
             },
           }}
         >
