@@ -13,7 +13,6 @@ export default function App() {
     <>
     <BrowserRouter>
       <Navbar/>
-        <Container maxWidth="sm">
           <Routes>
             <Route path='/' element={<HomePage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
@@ -23,7 +22,6 @@ export default function App() {
             <Route path='/upcoming-results' element={<UpcomingResultsPage/>}/>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-      </Container>
     </BrowserRouter>
     </>
     

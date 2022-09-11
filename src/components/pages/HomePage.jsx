@@ -1,7 +1,12 @@
 import React from "react"
+import Announcements from "../Announcements"
+import ResultList from "../ResultList"
 
 export default function HomePage() {
     return (
-        <h1>Home Page</h1>
+        <>
+            <Announcements/>
+            <ResultList/>
+        </>
     )
 }
