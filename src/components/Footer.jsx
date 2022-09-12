@@ -81,7 +81,6 @@ export default function Footer(){
                     </Grid>
                    
                     <Box textAlign="center"  sx={{mt:3}}>
-                        {/* <Typography variant="h6">Fast Bond &copy; {new Date().getFullYear()} All rights reserved</Typography> */}
                         <Typography
                             variant="h6"
                             noWrap

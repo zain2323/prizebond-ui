@@ -1,3 +1,8 @@
+@import "@fontsource/roboto/300.css";
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
 .login-form {
     margin: 48px;
     padding: 8px;
@@ -12,3 +17,19 @@ body {
     text-decoration-color: lightgray;
     opacity: 0.9;
   }
+
+th.gridjs-th-sort .gridjs-th-content {
+    width: 100%;
+}
+
+.gridjs-table{
+    min-width: 100%;
+}
+
+table {
+    font-family: 'roboto';
+    font-weight: 400;
+}
+tr:hover td, tr:hover th {
+    background-color: rgba(0, 0, 0, 0.1);
+}
