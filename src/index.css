@@ -6,3 +6,9 @@
 body {
     margin: 0;
 }
+
+.footer-link:hover {
+    color: lightgray;
+    text-decoration-color: lightgray;
+    opacity: 0.9;
+  }

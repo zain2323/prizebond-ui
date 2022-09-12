@@ -7,6 +7,7 @@ import DrawsInfoPage  from "./components/pages/DrawsInfoPage"
 import ResultsPage  from "./components/pages/ResultsPage"
 import UpcomingResultsPage  from "./components/pages/UpcomingResultsPage"
 import Container from '@mui/material/Container';
+import Footer from "./components/Footer"
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
             <Route path='/upcoming-results' element={<UpcomingResultsPage/>}/>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+    <Footer/>
     </BrowserRouter>
     </>
     
