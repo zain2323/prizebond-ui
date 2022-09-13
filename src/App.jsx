@@ -8,11 +8,13 @@ import ResultsPage  from "./components/pages/ResultsPage"
 import UpcomingResultsPage  from "./components/pages/UpcomingResultsPage"
 import Container from '@mui/material/Container';
 import Footer from "./components/Footer"
+import ScrollToTop from "./components/ScrollToTop"
 
 export default function App() {
   return (
     <>
     <BrowserRouter>
+    <ScrollToTop/>
       <Navbar/>
           <Routes>
             <Route path='/' element={<HomePage/>}/>
