@@ -61,9 +61,30 @@ export default function LoginPage() {
 
     function handleSubmit(event) {
         event.preventDefault()
+        const email = formData.email.value
+        const password = formData.password.value
         verifyEmail(formData.email.value)
         verifyPassword(formData.password.value)
-        console.log(formData)
+
+        fetch("http://localhost:5000/tokens", {
+            method: "POST",
+            headers: {
+                Authorization: "Basic " + btoa(email + ":" + password),
+                'Content-Type': 'application/json',
+            },
+            body: null,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.status === 403 ?  'fail' : "error"
+            }
+            localStorage.setItem('accessToken', response.body.access_token)
+            localStorage.setItem('refreshToken', response.body.refresh_token)
+            return 'ok'
+        })
+        .then(status => {
+            status === "ok" ? console.log("pass") : console.log("failed")
+        })
     }
 
     function verifyPassword(password) {

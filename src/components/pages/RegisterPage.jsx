@@ -7,6 +7,10 @@ import logo from "../../assets/react.svg"
 import Center from "../utils/Center"
 import CustomPasswordField from "../utils/CustomPasswordField"
 
+
+const BASE_API_URL = "http://localhost:5000" 
+
+
 export default function RegisterPage() {  
     const [formData, setFormData] = React.useState({
         fullname: {
@@ -57,12 +61,35 @@ export default function RegisterPage() {
         })
     }
 
+
     function handleSubmit(event) {
         event.preventDefault()
         verifyEmail(formData.email.value)
         verifyPassword(formData.password.value)
         verifyName(formData.fullname.value)
-        console.log(formData)
+
+        const data = {
+            "name": formData.fullname.value,
+            "email": formData.email.value,
+            "password": formData.password.value
+        }
+    
+        fetch(BASE_API_URL + "/users", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+        })
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            console.log(data)
+        })
+        .catch((error) => {
+            console.error("Error", error)
+        })
     }
 
     function verifyPassword(val) {
