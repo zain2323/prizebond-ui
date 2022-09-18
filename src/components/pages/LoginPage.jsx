@@ -4,10 +4,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {TextField, Stack, Typography,
         Button, Checkbox, FormGroup, FormControlLabel, Link, Container} from '@mui/material'
-import logo from "../../assets/react.svg"
-import Center from "../utils/Center"
+import logo from "../../assets/react.svg";
+import Center from "../utils/Center";
 import CustomPasswordField from "../utils/CustomPasswordField"
-import { useApi } from '../../contexts/ApiProvider'
+import { useUser } from '../../contexts/UserProvider'
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export default function LoginPage() {  
@@ -34,6 +35,9 @@ export default function LoginPage() {
         }
     })  
 
+    const { login } = useUser()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     function handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -61,33 +65,25 @@ export default function LoginPage() {
         })
     }
 
-    function handleSubmit(event) {
-        event.preventDefault()
-        const email = formData.email.value
-        const password = formData.password.value
-        verifyEmail(formData.email.value)
-        verifyPassword(formData.password.value)
-
-        fetch("http://localhost:5000/tokens", {
-            method: "POST",
-            headers: {
-                Authorization: "Basic " + btoa(email + ":" + password),
-                'Content-Type': 'application/json',
-            },
-            body: null,
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.status === 403 ?  'fail' : "error"
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const email = formData.email.value;
+        const password = formData.password.value;
+        verifyEmail(formData.email.value);
+        verifyPassword(formData.password.value);
+        const result = await login(email, password);
+        console.log(result)
+        if (result === "fail") {
+            console.log("login failed");
+        }
+        else if (result === "ok") {
+            let next = "/";
+            if (location.state && location.state.next) {
+                next = location.state.next;
             }
-            localStorage.setItem('accessToken', response.body.access_token)
-            localStorage.setItem('refreshToken', response.body.refresh_token)
-            return 'ok'
-        })
-        .then(status => {
-            status === "ok" ? console.log("pass") : console.log("failed")
-        })
-    }
+            navigate(next)
+        }
+    };
 
     function verifyPassword(password) {
             if (password === "") {

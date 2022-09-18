@@ -4,7 +4,7 @@ export default class Client {
     constructor() {
         this.baseUrl = BASE_API_URL
     }
-
+   
     async request(options) {
         let query = new URLSearchParams(options.query || {}).toString()
         if (query !== '') {
@@ -13,7 +13,7 @@ export default class Client {
         
         let response;
         try {
-          response = await fetch(this.base_url + options.url + query, {
+          response = await fetch(this.baseUrl + options.url, {
             method: options.method,
             headers: {
               'Content-Type': 'application/json',
@@ -36,10 +36,10 @@ export default class Client {
         }
 
         return {
-            ok: response.ok,
-            status: response.status,
-            body: response.status !== 204 ? await response.json() : null
-          };
+          ok: response.ok,
+          status: response.status,
+          body: response.status !== 204 ? await response.json() : null
+        }
     }
 
     async get(url, query, options) {
@@ -55,25 +55,25 @@ export default class Client {
     }
     
     async delete(url, options) {
-        return this.request({method: 'DELETE', url, ...options});
+        return await this.request({method: 'DELETE', url, ...options});
     }
 
-    async login(email, password) {
-        const response = await this.post("/tokens", null, {
-            headers: {
-                Authorization: "Basic " + btoa(email + ":" + password)
-            }
-        })
+    async login(username, password) {
+        const response = await this.post('/tokens', null, {
+          headers: {
+            Authorization:  'Basic ' + btoa(username + ":" + password)
+          }
+        });
         if (!response.ok) {
-            return response.status === 403 ? "fail" : "error"
+          return response.status === 401 ? 'fail' : 'error';
         }
-        localStorage.setItem("accessToken". response.body.access_token)
-        return 'ok'
-    }
+        localStorage.setItem('accessToken', response.body.access_token);
+        return 'ok';
+      }
 
     async logout() {
         await this.delete("/tokens")
-        localStorage.removeItem("accessToken")
+        localStorage.removeItem("accessToken");
     }
 
     async register(name, email, password) {
@@ -81,10 +81,10 @@ export default class Client {
             "name": name,
             "email": email,
             "password": password
-        }
+        };
         const response = await this.post("/users", body, null)
         if (!response.ok) {
-            return response.status == 400 ? "fail" : "error"
+            return response.status == 400 ? "fail" : "error";
         }
         return response;
     }

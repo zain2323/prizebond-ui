@@ -1,46 +1,46 @@
-import React from "react"
-import {useApi} from "./ApiProvider"
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useApi } from './ApiProvider';
 
-const UserContext = React.createContext()
+const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-    const [user, setUser] = React.useState()
-    const api = useApi()
+  const [user, setUser] = useState();
+  const api = useApi();
 
-    React.useEffect(() => {
-        (async () => {
-          if (api.isAuthenticated) {
-            const response = await api.get('/me');
-            setUser(response.ok ? response.body : null);
-          }
-          else {
-            setUser(null);
-          }
-        })();
-      }, [api]);
+  useEffect(() => {
+    (async () => {
+      if (api.isAuthenticated()) {
+        const response = await api.get('/about');
+        setUser(response.ok ? response.body : null);
+      }
+      else {
+        setUser(null);
+      }
+    })();
+  }, [api]);
 
-    const login = async (email, password) => {
-        const result = await api.login(email, password)
-        if (result === 'ok') {
-            const response = await api.get("/me")
-            setUser(response.ok ? response.body : null)
-            return response.ok
-        }
-        return result
+  const login = async (username, password) => {
+    const result = await api.login(username, password);
+    if (result === 'ok') {
+      const response = await api.get('/about');
+      setUser(response.ok ? response.body : null);
+      return response.ok;
     }
-  
-    const logout = async () => {
-        await api.logout()
-         setUser(null)
-    }
+    return result;
+  };
 
-    return (
-        <UserContext.Provider value={{ user, setUser, logout, login}}>
-            {children}
-        </UserContext.Provider>
-    )
+  const logout = async () => {
+    await api.logout();
+    setUser(null);
+  };
+
+  return (
+    <UserContext.Provider value={{ user, setUser, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export function useUser() {
-    return React.useContext(UserContext)
+  return useContext(UserContext);
 }
