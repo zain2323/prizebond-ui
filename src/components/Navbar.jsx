@@ -18,7 +18,7 @@ import AccountMenu from "./AccountMenu"
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
-const signedIn = ["Logout"]
+const signedIn = ["Add bonds", "Search results"]
 const pagesLink = {
   "Home": "/",
   "Results": "/results",
@@ -26,7 +26,8 @@ const pagesLink = {
   "Draws Info": "/draws-info",
   "Login": "/login",
   "Register": "/register",
-  "Logout": "/logout"
+  "Add bonds": "/add",
+  "Search results": "/search-results"
 }
 
 const Navbar = () => {
@@ -140,7 +141,8 @@ const Navbar = () => {
             Fast Bond
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {user === null &&
+              pages.map((page) => (
               <Button
                 key={page}
                 component={RouterLink}
@@ -151,6 +153,18 @@ const Navbar = () => {
                 {page}
               </Button>
             ))}
+            {user !== null && 
+              signedIn.map((item) => (
+                <Button
+                  key={item}
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={pagesLink[item]}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {item}
+                </Button>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0,  display: { xs: 'none', md: 'flex' } }}>
@@ -166,8 +180,8 @@ const Navbar = () => {
                   {item}
                 </Button>
               ))}
-            {user !== null &&
-               <AccountMenu logout={logout}/>}
+            {user !== null && <AccountMenu logout={logout}/>}
+            
           </Box>
           
         </Toolbar>

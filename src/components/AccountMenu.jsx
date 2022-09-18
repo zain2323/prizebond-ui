@@ -73,9 +73,6 @@ export default function AccountMenu({logout}) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
           <Avatar /> My account
         </MenuItem>
         <Divider />

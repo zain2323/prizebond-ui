@@ -4,8 +4,28 @@ export default class Client {
     constructor() {
         this.baseUrl = BASE_API_URL
     }
-   
+
     async request(options) {
+      let response = await this.requestInternal(options);
+      if (response.status === 401 && options.url !== "/tokens") {
+        const access_token = localStorage.getItem("accessToken");
+        const refresh_token = localStorage.getItem("refreshToken");
+        console.log(access_token, refresh_token)
+        const refreshedResponse = await this.put("/tokens", {
+          access_token: access_token,
+          refresh_token: refresh_token
+        }); 
+        console.log(refreshedResponse)
+        if (refreshedResponse.ok) {
+          localStorage.setItem("accessToken", refreshedResponse.body.access_token);
+          localStorage.setItem("refreshToken", refreshedResponse.body.refresh_token);
+          response = await this.requestInternal(options);
+        }
+      }
+      return response
+    }
+   
+    async requestInternal(options) {
         let query = new URLSearchParams(options.query || {}).toString()
         if (query !== '') {
             query = '?' + query
@@ -68,6 +88,7 @@ export default class Client {
           return response.status === 401 ? 'fail' : 'error';
         }
         localStorage.setItem('accessToken', response.body.access_token);
+        localStorage.setItem("refreshToken", response.body.refresh_token)
         return 'ok';
       }
 
