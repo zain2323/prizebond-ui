@@ -12,16 +12,21 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link as RouterLink} from 'react-router-dom';
+import {useUser} from "../contexts/UserProvider";
+import AccountMenu from "./AccountMenu"
+
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
-const membership = ['Login', "Register"]
+const notSignedIn = ['Login', "Register"]
+const signedIn = ["Logout"]
 const pagesLink = {
   "Home": "/",
   "Results": "/results",
   "Upcoming Results": "/upcoming-results",
   "Draws Info": "/draws-info",
   "Login": "/login",
-  "Register": "/register"
+  "Register": "/register",
+  "Logout": "/logout"
 }
 
 const Navbar = () => {
@@ -34,6 +39,8 @@ const Navbar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const {user, logout} = useUser()
 
   return (
     <AppBar position="static">
@@ -88,13 +95,26 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                 <MenuItem key={page} onClick={handleCloseNavMenu}>
+                 <MenuItem 
+                      key={page} 
+                      onClick={handleCloseNavMenu}
+                      component={RouterLink}
+                      to={pagesLink[page]}>
                     <Typography textAlign="center">{page}</Typography>
                  </MenuItem>
               ))} 
               <Divider/>
-              {membership.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {user === null && notSignedIn.map((page) => (
+                <MenuItem 
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      component={RouterLink}
+                      to={pagesLink[page]}>
+                     <Typography textAlign="center">{page}</Typography> 
+                </MenuItem>
+              ))}
+              {user !== null && signedIn.map((page) => (
+                <MenuItem key={page} onClick={logout}>
                      <Typography textAlign="center">{page}</Typography> 
                 </MenuItem>
               ))}
@@ -134,19 +154,22 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0,  display: { xs: 'none', md: 'flex' } }}>
-            
-          {membership.map((item) => (
-              <Button
-                key={item}
-                onClick={handleCloseNavMenu}
-                component={RouterLink}
-                to={pagesLink[item]}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {item}
-              </Button>
-            ))}
+          {user === null && 
+            notSignedIn.map((item) => (
+                <Button
+                  key={item}
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={pagesLink[item]}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {item}
+                </Button>
+              ))}
+            {user !== null &&
+               <AccountMenu logout={logout}/>}
           </Box>
+          
         </Toolbar>
       </Container>
     </AppBar>
