@@ -6,20 +6,32 @@ import {
 } from '@mui/material';
 import Center from "../utils/Center";
 import {Link as RouterLink} from 'react-router-dom';
+import {useApi}  from "../../contexts/ApiProvider";
 
 
 export default function AddBondSeriesPage() {
+    const api = useApi()
     const [denomination, setDenomination] = React.useState('');
-
+    const [denominations, setDenominations] = React.useState([])
+    const [serials, setSerials] = React.useState('');
+    
     const handleDenominationChange = (event) => {
         setDenomination(event.target.value);
     };
 
-    const [serials, setSerials] = React.useState('');
-
     const handleSerialChange = (event) => {
         setSerials(event.target.value);
     };
+
+    async function fetchDenominations() {
+        const response = await api.get("/denominations");
+        setDenominations(response.ok ? response.body : null);
+    }
+
+    React.useEffect(() => {
+        fetchDenominations()
+    }, [api])
+
 
     return (
         <Container maxWidth="sm">
@@ -51,10 +63,11 @@ export default function AddBondSeriesPage() {
                                 <MenuItem value="">
                                     <em>Select denomination</em>
                                 </MenuItem>
-                                <MenuItem value={100}>Rs.100</MenuItem>
-                                <MenuItem value={200}>Rs.200</MenuItem>
-                                <MenuItem value={750}>Rs.750</MenuItem>
-                                <MenuItem value={1500}>Rs.1500</MenuItem>
+                                {denominations.map((val) => {
+                                    return (
+                                        <MenuItem key={val.id} value={val.price}>Rs.{val.price}</MenuItem>        
+                                    )
+                                })}
                             </Select>
                         </FormControl>
                         <Stack direction="row">
