@@ -18,7 +18,7 @@ import AccountMenu from "./AccountMenu"
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
-const signedIn = ["Add bonds", "Search results"]
+const signedIn = ["Add bonds", "Add series", "Check results"]
 const pagesLink = {
   "Home": "/",
   "Results": "/results",
@@ -26,8 +26,9 @@ const pagesLink = {
   "Draws Info": "/draws-info",
   "Login": "/login",
   "Register": "/register",
-  "Add bonds": "/add",
-  "Search results": "/search-results"
+  "Add bonds": "/add-bonds",
+  "Add series": "/add-series",
+  "Check results": "/search-results"
 }
 
 const Navbar = () => {

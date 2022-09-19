@@ -6,6 +6,7 @@ import {TextField, Stack, Typography,
 import logo from "../../assets/react.svg"
 import Center from "../utils/Center"
 import CustomPasswordField from "../utils/CustomPasswordField"
+import {Link as RouterLink} from 'react-router-dom';
 
 
 const BASE_API_URL = "http://localhost:5000" 
@@ -198,7 +199,7 @@ export default function RegisterPage() {
                             />
                             <Button style={{width: 400, marginTop: 16}} variant="contained" type="submit">Sign up</Button>
                             <Center>
-                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Already have an account? <Link href="#" underline="hover">{'Login'}</Link> </Typography> 
+                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Already have an account? <Link component={RouterLink} to="/login" underline="hover">{'Login'}</Link> </Typography> 
                             </Center>
                         </form>
                     </Stack>

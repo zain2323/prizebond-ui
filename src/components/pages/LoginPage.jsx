@@ -9,6 +9,7 @@ import Center from "../utils/Center";
 import CustomPasswordField from "../utils/CustomPasswordField"
 import { useUser } from '../../contexts/UserProvider'
 import { useNavigate, useLocation } from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 
 
 export default function LoginPage() {  
@@ -184,7 +185,7 @@ export default function LoginPage() {
                             </Box>           
                             <Button style={{width: 400, marginTop: 16}} variant="contained" type="submit">Login</Button>
                             <Center>
-                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link href="#" underline="hover">{'Sign up'}</Link> </Typography> 
+                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link component={RouterLink} to="/register" underline="hover">{'Sign up'}</Link> </Typography> 
                             </Center>
                         </form>
                     </Stack>
