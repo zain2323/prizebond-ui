@@ -70,8 +70,8 @@ export default function LoginPage() {
         event.preventDefault();
         const email = formData.email.value;
         const password = formData.password.value;
-        verifyEmail(formData.email.value);
-        verifyPassword(formData.password.value);
+        verifyEmail(email);
+        verifyPassword(password);
         const result = await login(email, password);
         if (result === "fail") {
             console.log("login failed");

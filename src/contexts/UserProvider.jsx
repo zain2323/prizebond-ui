@@ -4,7 +4,7 @@ import { useApi } from './ApiProvider';
 const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const api = useApi();
 
   useEffect(() => {
