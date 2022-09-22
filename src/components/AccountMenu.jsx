@@ -11,6 +11,9 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import {Link as RouterLink} from 'react-router-dom';
+
+
 
 export default function AccountMenu({logout}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -82,7 +85,7 @@ export default function AccountMenu({logout}) {
           </ListItemIcon>
           Add another account
         </MenuItem>
-        <MenuItem>
+        <MenuItem component={RouterLink} to="/account-settings">
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

@@ -9,6 +9,7 @@ import SearchResultsPage  from "./components/pages/SearchResultsPage";
 import AddBondsPage  from "./components/pages/AddBondsPage";
 import AddBondSeriesPage  from "./components/pages/AddBondSeriesPage";
 import UpcomingResultsPage  from "./components/pages/UpcomingResultsPage";
+import AccountSettingsPage  from "./components/pages/AccountSettingsPage";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ApiProvider from "./contexts/ApiProvider";
@@ -42,6 +43,7 @@ export default function App() {
                         <Route path='/add-series' element={<AddBondSeriesPage/>}/>
                         <Route path='/results' element={<ResultsPage/>}/>
                         <Route path='/upcoming-results' element={<UpcomingResultsPage/>}/>
+                        <Route path='/account-settings' element={<AccountSettingsPage/>}/>
                         <Route path="*" element={<Navigate to="/" />} />
                       </Routes>
                     </PrivateRoute>

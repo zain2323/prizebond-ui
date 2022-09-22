@@ -30,6 +30,15 @@ table {
     font-family: 'roboto';
     font-weight: 400;
 }
+
 tr:hover td, tr:hover th {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.EditButton {
+    font-size: 15px;
+    margin-right: 3px;
+}
+.EditButton:hover {
+    text-decoration: underline;
 }
