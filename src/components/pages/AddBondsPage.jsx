@@ -10,19 +10,34 @@ import { useApi } from "../../contexts/ApiProvider";
 
 export default function AddBondsPage() {
     const api = useApi()
-    const [denomination, setDenomination] = React.useState("");
+    const [formData, setFormData] = React.useState({
+        denomination: {
+            value: "",
+            error: false,
+            errorMessage: ""
+        },
+        serials: {
+            value: "",
+            error: false,
+            errorMessage: ""
+        },
+    })
     const [denominations, setDenominations] = React.useState([])
-    const [serials, setSerials] = React.useState();
-    const [isInValidSerial, setIsInValidSerial] = React.useState(false);
 
-    const handleDenominationChange = (event) => {
-        setDenomination(event.target.value);
-    };
-
-    const handleSerialChange = (event) => {
-        setSerials(event.target.value);
-        setIsInValidSerial(false);
-    };
+    function handleChange(event) {
+        const { name, value } = event.target
+        setFormData((prev) => {
+            return {
+                ...prev,
+                [name]: {
+                    value: value,
+                    error: false,
+                    errorMessage: ""
+                }
+            }
+        })
+        console.log(formData)
+    }
 
     async function fetchDenominations() {
         const response = await api.get("/denominations");
@@ -53,16 +68,28 @@ export default function AddBondsPage() {
         for (let i = 0; i < serialsList.length; i++) {
             const serial = serialsList[i];
             if (serial.length !== 6 || parseInt(serial) === Number.NaN) {
-                setIsInValidSerial(prev => !prev);
+                setFormData((prev) => {
+                    return {
+                        ...prev,
+                        serials: {
+                            value: prev.serials.value,
+                            error: true,
+                            errorMessage: "Serials length must be 6 digits or you mistyped it"
+                        }
+                    }
+                })
+                return null
             }
         }
         return serialsList
     }
 
     async function handleSubmit() {
-        let serialsList = verifySerial(serials)
+        let serialsList = verifySerial(formData.serials.value)
         let bonds = [];
-        if (!isInValidSerial && denomination !== "") {
+        const denomination = formData.denomination.value
+        console.log(formData)
+        if (serialsList !== null && denomination !== "") {
             for (let i = 0; i < serialsList.length; i++) {
                 let bond = {
                     serial: serialsList[i],
@@ -105,9 +132,10 @@ export default function AddBondsPage() {
                             <InputLabel id="denomiantion-label">Denomination</InputLabel>
                             <Select
                                 labelId="denomiantion-label"
-                                value={denomination}
-                                onChange={handleDenominationChange}
+                                value={formData.denomination.value}
+                                onChange={handleChange}
                                 label="Denomination"
+                                name="denomination"
                             >
                                 <MenuItem value="">
                                     <em>Select denomination</em>
@@ -126,10 +154,11 @@ export default function AddBondsPage() {
                             rows={5}
                             placeholder="Example 123456, 654321 ...."
                             sx={{ mb: 5, ml: 5, mr: 5 }}
-                            onChange={handleSerialChange}
-                            value={serials}
-                            error={isInValidSerial}
-                            helperText={isInValidSerial ? "Serials length must be 6 digits or you mistyped it" : ""}
+                            onChange={handleChange}
+                            name="serials"
+                            value={formData.serials.value}
+                            error={formData.serials.error}
+                            helperText={formData.serials.error ? formData.serials.errorMessage : ""}
                         />
                         <Button onClick={handleSubmit} sx={{ mb: 4, ml: 5, mr: 5 }} variant="contained">
                             Add
