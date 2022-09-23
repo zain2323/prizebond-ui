@@ -10,6 +10,7 @@ import AddBondsPage  from "./components/pages/AddBondsPage";
 import AddBondSeriesPage  from "./components/pages/AddBondSeriesPage";
 import UpcomingResultsPage  from "./components/pages/UpcomingResultsPage";
 import AccountSettingsPage  from "./components/pages/AccountSettingsPage";
+import LoggedInUserLandingPage  from "./components/pages/LoggedInUserLandingPage";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ApiProvider from "./contexts/ApiProvider";
@@ -27,23 +28,35 @@ export default function App() {
           <ScrollToTop/>
             <Navbar/>
                 <Routes>
-                  <Route path='/' element={<HomePage/>}/>
-                  <Route path='/login' element={
+                <Route path='/' element={<HomePage/>}/>
+                  <Route path="/login" element={
                     <PublicRoute><LoginPage/></PublicRoute>
-                  }/>
-                  <Route path='/register' element={
+                    }>
+                  </Route>
+                  <Route path="/register" element={
                     <PublicRoute><RegisterPage/></PublicRoute>
-                  }/>
+                    }>
+                  </Route>
+                  <Route path="/draws-info" element={
+                    <PublicRoute><DrawsInfoPage/></PublicRoute>
+                    }>
+                  </Route>
+                  <Route path="/results" element={
+                    <PublicRoute><ResultsPage/></PublicRoute>
+                    }>
+                  </Route>
+                  <Route path="/upcoming-results" element={
+                    <PublicRoute><UpcomingResultsPage/></PublicRoute>
+                    }>
+                  </Route>
                   <Route path="*" element={
                     <PrivateRoute>
                       <Routes>
-                        <Route path='/draws-info' element={<DrawsInfoPage/>}/>
-                        <Route path='/search-results' element={<SearchResultsPage/>}/>
                         <Route path='/add-bonds' element={<AddBondsPage/>}/>
-                        <Route path='/add-series' element={<AddBondSeriesPage/>}/>
-                        <Route path='/results' element={<ResultsPage/>}/>
-                        <Route path='/upcoming-results' element={<UpcomingResultsPage/>}/>
+                        <Route path='/add-series' element={<AddBondSeriesPage/>}/>                        
                         <Route path='/account-settings' element={<AccountSettingsPage/>}/>
+                        <Route path='/user' element={<LoggedInUserLandingPage/>}/>
+                        <Route path='/search-results' element={<SearchResultsPage/>}/>
                         <Route path="*" element={<Navigate to="/" />} />
                       </Routes>
                     </PrivateRoute>
@@ -54,7 +67,6 @@ export default function App() {
       </ApiProvider>
     </BrowserRouter>
     </>
-    
   )
 }
 
