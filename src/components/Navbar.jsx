@@ -11,10 +11,12 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link as RouterLink} from 'react-router-dom';
-import {useUser} from "../contexts/UserProvider";
+import { Link as RouterLink } from 'react-router-dom';
+import { useUser } from "../contexts/UserProvider";
 import AccountMenu from "./AccountMenu"
-
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Badge from '@mui/material/Badge';
+import Tooltip from '@mui/material/Tooltip';
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
@@ -42,7 +44,7 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const {user, logout} = useUser()
+  const { user, logout } = useUser()
 
   return (
     <AppBar position="static">
@@ -97,27 +99,27 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                 <MenuItem 
-                      key={page} 
-                      onClick={handleCloseNavMenu}
-                      component={RouterLink}
-                      to={pagesLink[page]}>
-                    <Typography textAlign="center">{page}</Typography>
-                 </MenuItem>
-              ))} 
-              <Divider/>
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={pagesLink[page]}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+              <Divider />
               {user === null && notSignedIn.map((page) => (
-                <MenuItem 
-                      key={page}
-                      onClick={handleCloseNavMenu}
-                      component={RouterLink}
-                      to={pagesLink[page]}>
-                     <Typography textAlign="center">{page}</Typography> 
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={pagesLink[page]}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
               {user !== null && signedIn.map((page) => (
                 <MenuItem key={page} onClick={logout}>
-                     <Typography textAlign="center">{page}</Typography> 
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -144,17 +146,17 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {user === null &&
               pages.map((page) => (
-              <Button
-                key={page}
-                component={RouterLink}
-                to={pagesLink[page]}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-            {user !== null && 
+                <Button
+                  key={page}
+                  component={RouterLink}
+                  to={pagesLink[page]}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              ))}
+            {user !== null &&
               signedIn.map((item) => (
                 <Button
                   key={item}
@@ -168,9 +170,9 @@ const Navbar = () => {
               ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0,  display: { xs: 'none', md: 'flex' } }}>
-          {user === null && 
-            notSignedIn.map((item) => (
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+            {user === null &&
+              notSignedIn.map((item) => (
                 <Button
                   key={item}
                   onClick={handleCloseNavMenu}
@@ -181,10 +183,23 @@ const Navbar = () => {
                   {item}
                 </Button>
               ))}
-            {user !== null && <AccountMenu logout={logout}/>}
-            
+            {user !== null &&
+              <>
+                <Tooltip title="Notifications">
+                  <IconButton>
+                    <Badge overlap="circular" color="secondary" badgeContent={99}>
+                      <NotificationsNoneIcon
+                        sx={{
+                          mt: 1.2
+                        }} />
+                    </Badge>
+
+                  </IconButton>
+                </Tooltip>
+                <AccountMenu logout={logout} />
+              </>
+            }
           </Box>
-          
         </Toolbar>
       </Container>
     </AppBar>

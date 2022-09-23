@@ -12,9 +12,12 @@ import { useLoadingBar } from '../../contexts/LoadingBarProvider';
 import AlertMessage from "../utils/AlertMessage";
 import { useFlash } from '../../contexts/FlashProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
+// import { useLoadingContext } from "react-router-loading";
 
 
 export default function AddBondSeriesPage() {
+    // const loadingContext = useLoadingContext();
+    // loadingContext.done()
     const api = useApi();
     const flash = useFlash();
     const loadingBar = useLoadingBar();

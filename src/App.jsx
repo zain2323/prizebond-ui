@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// import { BrowserRouter, Navigate } from 'react-router-dom';
+// import { Routes, Route } from "react-router-loading";
 import Navbar from './components/Navbar';
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
@@ -56,7 +58,7 @@ export default function App() {
                   <Route path="*" element={
                     <PrivateRoute>
                       <Routes>
-                        <Route path='/add-bonds' element={<AddBondsPage />} />
+                        <Route path='/add-bonds' element={<AddBondsPage />}/>
                         <Route path='/add-series' element={<AddBondSeriesPage />} />
                         <Route path='/account-settings' element={<AccountSettingsPage />} />
                         <Route path='/user' element={<LoggedInUserLandingPage />} />

@@ -82,19 +82,17 @@ export default function LoginPage() {
         verifyEmail(email);
         verifyPassword(password);
         const response = await login(email, password);
-        if (!response.ok) {
+        if (!response) {
             flash("Login failed", "Credentials mismatch", "error");
-            
+            navigate("/login")
         }
-        else if (response === "ok") {
-            let next = "/";
+        else {
+            let next = "/add-bonds";
             if (location.state && location.state.next) {
                 next = location.state.next;
             }
+            flash("Login Success", "You have been logged in", "success");
             navigate(next)
-        }
-        else {
-            navigate("/login")
         }
         loadingBar.hideLoadingBar();
     };

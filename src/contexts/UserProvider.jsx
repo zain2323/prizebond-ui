@@ -24,9 +24,9 @@ export default function UserProvider({ children }) {
     if (result === 'ok') {
       const response = await api.get('/about');
       setUser(response.ok ? response.body : null);
-      return response.ok;
+      return true;
     }
-    return result;
+    return false;
   };
 
   const logout = async () => {
