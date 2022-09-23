@@ -7,9 +7,21 @@ import {
 import Center from "../utils/Center";
 import { Link as RouterLink } from 'react-router-dom';
 import { useApi } from "../../contexts/ApiProvider";
+import ProgressBar from "../utils/ProgessBar";
+import { useLoadingBar } from '../../contexts/LoadingBarProvider';
+import AlertMessage from "../utils/AlertMessage";
+import { useFlash } from '../../contexts/FlashProvider';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+
 
 export default function AddBondsPage() {
-    const api = useApi()
+    const api = useApi();
+    const flash = useFlash();
+    const loadingBar = useLoadingBar();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [formData, setFormData] = React.useState({
         denomination: {
             value: "",
@@ -85,10 +97,10 @@ export default function AddBondsPage() {
     }
 
     async function handleSubmit() {
+        loadingBar.showLoadingBar();
         let serialsList = verifySerial(formData.serials.value)
         let bonds = [];
         const denomination = formData.denomination.value
-        console.log(formData)
         if (serialsList !== null && denomination !== "") {
             for (let i = 0; i < serialsList.length; i++) {
                 let bond = {
@@ -100,76 +112,83 @@ export default function AddBondsPage() {
 
             const response = await api.post("/bonds", bonds);
             if (response.ok) {
-                console.log(response.body)
+                flash("Bonds added!", "All of your bonds have been added successfully.", "success")
             }
             else {
-                console.log("error");
+                flash("Validation failed", "Please verify all of the required fields.", "error")
             }
         }
+        navigate("/add-bonds")
+        loadingBar.hideLoadingBar();
     }
 
     return (
-        <Container maxWidth="sm">
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                        m: 1,
-                        width: 500,
-                        height: 510,
-                        marginTop: 7,
-                        marginBottom: 8,
-                    },
-                }}
-            >
-                <Paper elevation={10}>
-                    <Stack>
-                        <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
-                        <FormControl required
-                            sx={{ minWidth: 120, m: 5, mb: 4 }}>
-                            <InputLabel id="denomiantion-label">Denomination</InputLabel>
-                            <Select
-                                labelId="denomiantion-label"
-                                value={formData.denomination.value}
+        <>
+            <ProgressBar />
+            <AlertMessage />
+
+            <Container maxWidth="sm">
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        '& > :not(style)': {
+                            m: 1,
+                            width: 500,
+                            height: 510,
+                            marginTop: 7,
+                            marginBottom: 8,
+                        },
+                    }}
+                >
+                    <Paper elevation={10}>
+                        <Stack>
+                            <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
+                            <FormControl required
+                                sx={{ minWidth: 120, m: 5, mb: 4 }}>
+                                <InputLabel id="denomiantion-label">Denomination</InputLabel>
+                                <Select
+                                    labelId="denomiantion-label"
+                                    value={formData.denomination.value}
+                                    onChange={handleChange}
+                                    label="Denomination"
+                                    name="denomination"
+                                >
+                                    <MenuItem value="">
+                                        <em>Select denomination</em>
+                                    </MenuItem>
+                                    {denominations.map((val) => {
+                                        return (
+                                            <MenuItem key={val.id} value={val.price}>Rs.{val.price}</MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </FormControl>
+
+                            <TextField
+                                label="Serials"
+                                multiline
+                                rows={5}
+                                placeholder="Example 123456, 654321 ...."
+                                sx={{ mb: 5, ml: 5, mr: 5 }}
                                 onChange={handleChange}
-                                label="Denomination"
-                                name="denomination"
-                            >
-                                <MenuItem value="">
-                                    <em>Select denomination</em>
-                                </MenuItem>
-                                {denominations.map((val) => {
-                                    return (
-                                        <MenuItem key={val.id} value={val.price}>Rs.{val.price}</MenuItem>
-                                    )
-                                })}
-                            </Select>
-                        </FormControl>
+                                name="serials"
+                                value={formData.serials.value}
+                                error={formData.serials.error}
+                                helperText={formData.serials.error ? formData.serials.errorMessage : ""}
+                            />
+                            <Button onClick={handleSubmit} sx={{ mb: 4, ml: 5, mr: 5 }} variant="contained">
+                                Add
+                            </Button>
+                            <Center>
+                                <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add series? <Link component={RouterLink} to="/add-series" underline="hover">{'Add series'}</Link> </Typography>
+                            </Center>
 
-                        <TextField
-                            label="Serials"
-                            multiline
-                            rows={5}
-                            placeholder="Example 123456, 654321 ...."
-                            sx={{ mb: 5, ml: 5, mr: 5 }}
-                            onChange={handleChange}
-                            name="serials"
-                            value={formData.serials.value}
-                            error={formData.serials.error}
-                            helperText={formData.serials.error ? formData.serials.errorMessage : ""}
-                        />
-                        <Button onClick={handleSubmit} sx={{ mb: 4, ml: 5, mr: 5 }} variant="contained">
-                            Add
-                        </Button>
-                        <Center>
-                            <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add series? <Link component={RouterLink} to="/add-series" underline="hover">{'Add series'}</Link> </Typography>
-                        </Center>
+                        </Stack>
 
-                    </Stack>
-
-                </Paper>
-            </Box>
-        </Container>
+                    </Paper>
+                </Box>
+            </Container>
+        </>
     );
 }

@@ -11,6 +11,8 @@ import AlertMessage from "../utils/AlertMessage"
 import { useFlash } from '../../contexts/FlashProvider'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApi } from "../../contexts/ApiProvider";
+import ProgressBar from "../utils/ProgessBar"
+import { useLoadingBar } from '../../contexts/LoadingBarProvider'
 
 
 export default function RegisterPage() {  
@@ -37,10 +39,11 @@ export default function RegisterPage() {
         }
     }) 
     
-    const api = useApi()
+    const api = useApi();
     const flash = useFlash();
-    const navigate = useNavigate()
-    const location = useLocation()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const loadingBar = useLoadingBar();
 
     function handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -71,6 +74,7 @@ export default function RegisterPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        loadingBar.showLoadingBar();
         verifyEmail(formData.email.value)
         verifyPassword(formData.password.value)
         verifyName(formData.fullname.value)
@@ -88,6 +92,7 @@ export default function RegisterPage() {
         else {
             flash("Validation failed", "Please verify all of the required fields.", "warning")
         }
+        loadingBar.hideLoadingBar();
        
     };
 
@@ -147,6 +152,7 @@ export default function RegisterPage() {
     
     return (
         <>
+            <ProgressBar/>
             <AlertMessage />
             <Container maxWidth="sm">
                 <Box

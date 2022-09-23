@@ -7,10 +7,20 @@ import {
 import Center from "../utils/Center";
 import { Link as RouterLink } from 'react-router-dom';
 import { useApi } from "../../contexts/ApiProvider";
+import ProgressBar from "../utils/ProgessBar";
+import { useLoadingBar } from '../../contexts/LoadingBarProvider';
+import AlertMessage from "../utils/AlertMessage";
+import { useFlash } from '../../contexts/FlashProvider';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export default function AddBondSeriesPage() {
-    const api = useApi()
+    const api = useApi();
+    const flash = useFlash();
+    const loadingBar = useLoadingBar();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [formData, setFormData] = React.useState({
         denomination: {
             value: "",
@@ -52,7 +62,7 @@ export default function AddBondSeriesPage() {
     function verifyRange(start, end) {
         start = parseInt(start);
         end = parseInt(end);
-        if (end === Number.NaN || start  === Number.NaN) {
+        if (end === Number.NaN || start === Number.NaN) {
             setFormData((prev) => {
                 return {
                     ...prev,
@@ -126,7 +136,7 @@ export default function AddBondSeriesPage() {
             }
         }
         return true;
-        
+
     }
 
     React.useEffect(() => {
@@ -135,6 +145,7 @@ export default function AddBondSeriesPage() {
 
     async function handleSubmit() {
         event.preventDefault();
+        loadingBar.showLoadingBar();
         const isStartValid = verifySerial(formData.start.value);
         const isEndValid = verifySerial(formData.end.value);
         const isRangeValid = verifyRange(formData.start.value, formData.end.value);
@@ -148,85 +159,88 @@ export default function AddBondSeriesPage() {
         if (isStartValid && isEndValid && isRangeValid) {
             const response = await api.post("/bond/range", series);
             if (response.ok) {
-                console.log("OK");
-                console.log(response.body)
+                flash("Bonds added!", "All of your bonds have been added successfully.", "success")
             }
             else {
-                console.log("error");
+                flash("Validation failed", "Please verify all of the required fields.", "error")
             }
         }
+        loadingBar.hideLoadingBar();
     }
 
     return (
-        <Container maxWidth="sm">
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                        m: 1,
-                        width: 500,
-                        height: 460,
-                        marginTop: 7,
-                        marginBottom: 8,
-                    },
-                }}
-            >
-                <Paper elevation={10}>
-                    
-                        <form onSubmit={handleSubmit}>
-                        <Stack>
-                            <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
-                            <FormControl required
-                                sx={{ minWidth: 120, m: 5, mb: 4 }}>
-                                <InputLabel id="denomiantion-label">Denomination</InputLabel>
-                                <Select
-                                    labelId="denomiantion-label"
-                                    value={formData.denomination.value}
-                                    onChange={handleChange}
-                                    label="Denomination"
-                                    name="denomination"
-                                >
-                                    <MenuItem value="">
-                                        <em>Select denomination</em>
-                                    </MenuItem>
-                                    {denominations.map((val) => {
-                                        return (
-                                            <MenuItem key={val.id} value={val.price}>Rs.{val.price}</MenuItem>
-                                        )
-                                    })}
-                                </Select>
-                            </FormControl>
-                            <Stack direction="row">
-                                <TextField sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }}
-                                    id="start" placeholder="123456"
-                                    name="start" value={formData.start.value}
-                                    label="Start" variant="outlined"
-                                    onChange={handleChange} 
-                                    error={formData.start.error} 
-                                    helperText={formData.start.error ? formData.start.errorMessage: ""}/>
-                                <TextField sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }}
-                                    id="end" placeholder="123459"
-                                    label="End" variant="outlined"
-                                    name="end"
-                                    value={formData.end.value}
-                                    onChange={handleChange} 
-                                    error={formData.end.error} 
-                                    helperText={formData.end.error ? formData.end.errorMessage: ""}/>
-                            </Stack>
+        <>
+            <ProgressBar />
+            <AlertMessage />
 
-                            <Button type="submit" sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }} variant="contained">
-                                Add
-                            </Button>
-                            <Center>
-                                <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add bonds'}</Link></Typography>
-                            </Center>
+            <Container maxWidth="sm">
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        '& > :not(style)': {
+                            m: 1,
+                            width: 500,
+                            height: 460,
+                            marginTop: 7,
+                            marginBottom: 8,
+                        },
+                    }}
+                >
+                    <Paper elevation={10}>
+
+                        <form onSubmit={handleSubmit}>
+                            <Stack>
+                                <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
+                                <FormControl required
+                                    sx={{ minWidth: 120, m: 5, mb: 4 }}>
+                                    <InputLabel id="denomiantion-label">Denomination</InputLabel>
+                                    <Select
+                                        labelId="denomiantion-label"
+                                        value={formData.denomination.value}
+                                        onChange={handleChange}
+                                        label="Denomination"
+                                        name="denomination"
+                                    >
+                                        <MenuItem value="">
+                                            <em>Select denomination</em>
+                                        </MenuItem>
+                                        {denominations.map((val) => {
+                                            return (
+                                                <MenuItem key={val.id} value={val.price}>Rs.{val.price}</MenuItem>
+                                            )
+                                        })}
+                                    </Select>
+                                </FormControl>
+                                <Stack direction="row">
+                                    <TextField sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }}
+                                        id="start" placeholder="123456"
+                                        name="start" value={formData.start.value}
+                                        label="Start" variant="outlined"
+                                        onChange={handleChange}
+                                        error={formData.start.error}
+                                        helperText={formData.start.error ? formData.start.errorMessage : ""} />
+                                    <TextField sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }}
+                                        id="end" placeholder="123459"
+                                        label="End" variant="outlined"
+                                        name="end"
+                                        value={formData.end.value}
+                                        onChange={handleChange}
+                                        error={formData.end.error}
+                                        helperText={formData.end.error ? formData.end.errorMessage : ""} />
+                                </Stack>
+
+                                <Button type="submit" sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }} variant="contained">
+                                    Add
+                                </Button>
+                                <Center>
+                                    <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add bonds'}</Link></Typography>
+                                </Center>
                             </Stack>
                         </form>
-                    
-
-                </Paper>
-            </Box>
-        </Container>
+                    </Paper>
+                </Box>
+            </Container>
+        </>
     );
 }

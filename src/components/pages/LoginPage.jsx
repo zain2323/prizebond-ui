@@ -12,13 +12,15 @@ import CustomPasswordField from "../utils/CustomPasswordField"
 import AlertMessage from "../utils/AlertMessage"
 import { useUser } from '../../contexts/UserProvider'
 import { useFlash } from '../../contexts/FlashProvider'
+import { useLoadingBar } from '../../contexts/LoadingBarProvider'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-
+import ProgressBar from "../utils/ProgessBar"
 
 
 export default function LoginPage() {
     const flash = useFlash();
+    const loadingBar = useLoadingBar();
     const [formData, setFormData] = React.useState({
         email: {
             value: "",
@@ -74,7 +76,7 @@ export default function LoginPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        loadingBar.showLoadingBar();
         const email = formData.email.value;
         const password = formData.password.value;
         verifyEmail(email);
@@ -82,7 +84,7 @@ export default function LoginPage() {
         const response = await login(email, password);
         if (!response.ok) {
             flash("Login failed", "Credentials mismatch", "error");
-
+            
         }
         else if (response === "ok") {
             let next = "/";
@@ -94,6 +96,7 @@ export default function LoginPage() {
         else {
             navigate("/login")
         }
+        loadingBar.hideLoadingBar();
     };
 
     function verifyPassword(password) {
@@ -138,6 +141,7 @@ export default function LoginPage() {
 
     return (
         <>
+            <ProgressBar/>
             <AlertMessage />
             <Container maxWidth="sm">
                 <Box
