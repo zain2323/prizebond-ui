@@ -100,7 +100,6 @@ export default function AddBondsPage() {
 
             const response = await api.post("/bonds", bonds);
             if (response.ok) {
-                console.log("OK");
                 console.log(response.body)
             }
             else {

@@ -11,11 +11,14 @@ import Center from "../utils/Center";
 import CustomPasswordField from "../utils/CustomPasswordField"
 import AlertMessage from "../utils/AlertMessage"
 import { useUser } from '../../contexts/UserProvider'
+import { useFlash } from '../../contexts/FlashProvider'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 
 
+
 export default function LoginPage() {
+    const flash = useFlash();
     const [formData, setFormData] = React.useState({
         email: {
             value: "",
@@ -39,15 +42,9 @@ export default function LoginPage() {
         }
     })
 
-    const [open, setOpen] = React.useState(true);
-
     const { login } = useUser()
     const navigate = useNavigate()
     const location = useLocation()
-
-    function hideAlert() {
-        setOpen(true)
-    }
 
     function handleChange(event) {
         const { name, value, type, checked } = event.target
@@ -83,13 +80,11 @@ export default function LoginPage() {
         verifyEmail(email);
         verifyPassword(password);
         const response = await login(email, password);
-        console.log(response)
         if (!response.ok) {
-            setOpen(false)
+            flash("Login failed", "Credentials mismatch", "error");
 
         }
         else if (response === "ok") {
-            setOpen(true)
             let next = "/";
             if (location.state && location.state.next) {
                 next = location.state.next;
@@ -143,9 +138,7 @@ export default function LoginPage() {
 
     return (
         <>
-        { open === false &&
-            <AlertMessage hideAlert={hideAlert} open={open} severity={"error"} error={"Login Failed"} message={"Please recheck your email and password."}/>
-        }
+            <AlertMessage />
             <Container maxWidth="sm">
                 <Box
                     sx={{

@@ -7,9 +7,10 @@ import logo from "../../assets/react.svg"
 import Center from "../utils/Center"
 import CustomPasswordField from "../utils/CustomPasswordField"
 import {Link as RouterLink} from 'react-router-dom';
-
-
-const BASE_API_URL = "http://localhost:5000" 
+import AlertMessage from "../utils/AlertMessage"
+import { useFlash } from '../../contexts/FlashProvider'
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useApi } from "../../contexts/ApiProvider";
 
 
 export default function RegisterPage() {  
@@ -34,7 +35,12 @@ export default function RegisterPage() {
             error: false,
             errorMessage: ""
         }
-    })  
+    }) 
+    
+    const api = useApi()
+    const flash = useFlash();
+    const navigate = useNavigate()
+    const location = useLocation()
 
     function handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -63,7 +69,7 @@ export default function RegisterPage() {
     }
 
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         verifyEmail(formData.email.value)
         verifyPassword(formData.password.value)
@@ -74,24 +80,16 @@ export default function RegisterPage() {
             "email": formData.email.value,
             "password": formData.password.value
         }
-    
-        fetch(BASE_API_URL + "/users", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-        })
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            console.log(data)
-        })
-        .catch((error) => {
-            console.error("Error", error)
-        })
-    }
+        const response = await api.post("/users", data);
+        if (response.ok) {
+            flash("Account created", "Your account has been created. Please login to continue.", "success")
+            navigate("/login")
+        }
+        else {
+            flash("Validation failed", "Please verify all of the required fields.", "warning")
+        }
+       
+    };
 
     function verifyPassword(val) {
             if (val === "") {
@@ -148,63 +146,66 @@ export default function RegisterPage() {
     }
     
     return (
-        <Container maxWidth="sm">
-            <Box
-            sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                '& > :not(style)': {
-                marginTop: 7, 
-                marginBottom: 8,
-                width: 500,
-                height: getPaperHeight(),
-                },
-            }}
-            >
-                <Paper elevation={10}>
-                    <Stack>
-                        <img src={logo} style={{
-                            width:50, 
-                            height:50,
-                            margin: '0 auto',
-                            marginTop: 36,
-                            marginBottom: 0,
-                            padding: 0}
-                            }/>
-                        <form onSubmit={handleSubmit} className="login-form">
-                        <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Join Us!</Typography></Center>
-                        <TextField 
-                                style={{width: 400, marginBottom: 16}} 
-                                name="fullname" value={formData.fullname.value} onChange={handleChange}
-                                label="Name" type="text" placeholder="Enter your name" 
-                                variant="outlined" margin="dense"
-                                error={formData.fullname.error ? true: false} 
-                                helperText={formData.fullname.error ? formData.fullname.errorMessage: ""}
-                                />
+        <>
+            <AlertMessage />
+            <Container maxWidth="sm">
+                <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    '& > :not(style)': {
+                    marginTop: 7, 
+                    marginBottom: 8,
+                    width: 500,
+                    height: getPaperHeight(),
+                    },
+                }}
+                >
+                    <Paper elevation={10}>
+                        <Stack>
+                            <img src={logo} style={{
+                                width:50, 
+                                height:50,
+                                margin: '0 auto',
+                                marginTop: 36,
+                                marginBottom: 0,
+                                padding: 0}
+                                }/>
+                            <form onSubmit={handleSubmit} className="login-form">
+                            <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Join Us!</Typography></Center>
                             <TextField 
-                                style={{width: 400, marginBottom: 16}} 
-                                name="email" value={formData.email.value} onChange={handleChange}
-                                label="Email" type="email" placeholder="Enter your email" 
-                                variant="outlined" margin="dense"
-                                error={formData.email.error ? true: false} 
-                                helperText={formData.email.error ? formData.email.errorMessage: ""}
+                                    style={{width: 400, marginBottom: 16}} 
+                                    name="fullname" value={formData.fullname.value} onChange={handleChange}
+                                    label="Name" type="text" placeholder="Enter your name" 
+                                    variant="outlined" margin="dense"
+                                    error={formData.fullname.error ? true: false} 
+                                    helperText={formData.fullname.error ? formData.fullname.errorMessage: ""}
+                                    />
+                                <TextField 
+                                    style={{width: 400, marginBottom: 16}} 
+                                    name="email" value={formData.email.value} onChange={handleChange}
+                                    label="Email" type="email" placeholder="Enter your email" 
+                                    variant="outlined" margin="dense"
+                                    error={formData.email.error ? true: false} 
+                                    helperText={formData.email.error ? formData.email.errorMessage: ""}
+                                    />
+                                <CustomPasswordField
+                                    password={formData.password.value} 
+                                    showPassword={formData.showPassword.value}
+                                    handleChange={handleChange}
+                                    toggleShowPassword={toggleShowPassword}
+                                    error={formData.password.error}
+                                    errorMessage={formData.password.errorMessage}
                                 />
-                            <CustomPasswordField
-                                password={formData.password.value} 
-                                showPassword={formData.showPassword.value}
-                                handleChange={handleChange}
-                                toggleShowPassword={toggleShowPassword}
-                                error={formData.password.error}
-                                errorMessage={formData.password.errorMessage}
-                            />
-                            <Button style={{width: 400, marginTop: 16}} variant="contained" type="submit">Sign up</Button>
-                            <Center>
-                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Already have an account? <Link component={RouterLink} to="/login" underline="hover">{'Login'}</Link> </Typography> 
-                            </Center>
-                        </form>
-                    </Stack>
-                </Paper>
-            </Box>
-        </Container>
+                                <Button style={{width: 400, marginTop: 16}} variant="contained" type="submit">Sign up</Button>
+                                <Center>
+                                    <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Already have an account? <Link component={RouterLink} to="/login" underline="hover">{'Login'}</Link> </Typography> 
+                                </Center>
+                            </form>
+                        </Stack>
+                    </Paper>
+                </Box>
+            </Container>
+        </>
       );
 }
