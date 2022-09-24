@@ -42,3 +42,14 @@ tr:hover td, tr:hover th {
 .EditButton:hover {
     text-decoration: underline;
 }
+
+.link {
+    color: white;
+    text-decoration: none;
+  }
+
+.active, .link:hover {
+    border-radius: 30px;
+    background-color: lightskyblue;
+}
+

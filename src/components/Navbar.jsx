@@ -11,12 +11,18 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { useUser } from "../contexts/UserProvider";
 import AccountMenu from "./AccountMenu"
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
+import { useFlash } from '../contexts/FlashProvider'
+import { useLoadingBar } from '../contexts/LoadingBarProvider'
+import AlertMessage from "./utils/AlertMessage"
+import ProgressBar from "./utils/ProgessBar"
+import { useNavigate } from 'react-router-dom';
+
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
@@ -34,8 +40,10 @@ const pagesLink = {
 }
 
 const Navbar = () => {
+  const flash = useFlash();
+  const navigate = useNavigate()
+  const loadingBar = useLoadingBar();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -45,6 +53,14 @@ const Navbar = () => {
   };
 
   const { user, logout } = useUser()
+
+  async function logOut() {
+    loadingBar.showLoadingBar();
+    await logout();
+    flash("Logout Success", "You have been logged out", "success");
+    navigate("/login");
+    loadingBar.hideLoadingBar();
+  } 
 
   return (
     <AppBar position="static">
@@ -146,42 +162,50 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {user === null &&
               pages.map((page) => (
-                <Button
-                  key={page}
-                  component={RouterLink}
-                  to={pagesLink[page]}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                <NavLink 
+                to={pagesLink[page]}
+                className="link">
+                    <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{color: 'white', display: 'block' }}
                 >
                   {page}
                 </Button>
+                
+                </NavLink>
+                
               ))}
             {user !== null &&
               signedIn.map((item) => (
-                <Button
-                  key={item}
-                  onClick={handleCloseNavMenu}
-                  component={RouterLink}
-                  to={pagesLink[item]}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {item}
-                </Button>
+                <NavLink
+                to={pagesLink[item]}
+                className="link">
+                  <Button
+                    key={item}
+                    onClick={handleCloseNavMenu}
+                    sx={{color: 'white', display: 'block' }}
+                  >
+                    {item}
+                  </Button>
+                </NavLink>
               ))}
           </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {user === null &&
               notSignedIn.map((item) => (
-                <Button
-                  key={item}
-                  onClick={handleCloseNavMenu}
-                  component={RouterLink}
-                  to={pagesLink[item]}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {item}
-                </Button>
+                <NavLink
+                to={pagesLink[item]}
+                className="link">
+                  <Button
+                    key={item}
+                    onClick={handleCloseNavMenu}
+                    sx={{color: 'white', display: 'block' }}
+                  >
+                    {item}
+                  </Button>
+                </NavLink>
               ))}
             {user !== null &&
               <>
@@ -196,7 +220,7 @@ const Navbar = () => {
 
                   </IconButton>
                 </Tooltip>
-                <AccountMenu logout={logout} />
+                <AccountMenu logout={logOut} />
               </>
             }
           </Box>
