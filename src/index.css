@@ -39,6 +39,7 @@ tr:hover td, tr:hover th {
     font-size: 15px;
     margin-right: 3px;
 }
+
 .EditButton:hover {
     text-decoration: underline;
 }
@@ -46,10 +47,9 @@ tr:hover td, tr:hover th {
 .link {
     color: white;
     text-decoration: none;
-  }
+}
 
 .active, .link:hover {
     border-radius: 30px;
     background-color: lightskyblue;
 }
-

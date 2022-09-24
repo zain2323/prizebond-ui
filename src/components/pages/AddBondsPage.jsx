@@ -48,7 +48,6 @@ export default function AddBondsPage() {
                 }
             }
         })
-        console.log(formData)
     }
 
     async function fetchDenominations() {
