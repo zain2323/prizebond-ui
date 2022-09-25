@@ -87,7 +87,7 @@ export default function LoginPage() {
             navigate("/login")
         }
         else {
-            let next = "/add-bonds";
+            let next = "/user";
             if (location.state && location.state.next) {
                 next = location.state.next;
             }
@@ -139,74 +139,73 @@ export default function LoginPage() {
 
     return (
         <>
-            <ProgressBar/>
+            <ProgressBar />
             <AlertMessage />
-            <Container maxWidth="sm">
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        '& > :not(style)': {
-                            marginTop: 8,
-                            marginBottom: 8,
-                            width: 500,
-                            height: getPaperHeight,
-                        },
-                    }}
-                >
-                    <Paper elevation={10}>
-                        <Stack>
-                            <img src={logo} style={{
-                                width: 50,
-                                height: 50,
-                                margin: '0 auto',
-                                marginTop: 36,
-                                marginBottom: 0,
-                                padding: 0
-                            }
-                            } />
-                            <form onSubmit={handleSubmit} className="login-form">
-                                <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Hello Again!</Typography></Center>
-                                <TextField
-                                    style={{ width: 400, marginBottom: 16 }}
-                                    name="email" value={formData.email.value} onChange={handleChange}
-                                    label="Email" type="email" placeholder="Enter your email"
-                                    variant="outlined" margin="dense"
-                                    error={formData.email.error ? true : false}
-                                    helperText={formData.email.error ? formData.email.errorMessage : ""}
-                                />
-                                <CustomPasswordField
-                                    password={formData.password.value}
-                                    showPassword={formData.showPassword.value}
-                                    handleChange={handleChange}
-                                    toggleShowPassword={toggleShowPassword}
-                                    error={formData.password.error}
-                                    errorMessage={formData.password.errorMessage}
-                                />
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={8}>
-                                            <FormGroup>
-                                                <FormControlLabel
-                                                    name="rememberMe" value={formData.rememberMe.value} onChange={handleChange} control={<Checkbox defaultChecked />} label="Remember me" />
-                                            </FormGroup>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: "center",
+                            alignItems: "center",
+                            '& > :not(style)': {
+                                marginTop: 8,
+                                marginBottom: 8,
+                                width: 500,
+                                height: getPaperHeight,
+                            },
+                        }}
+                    >
+                        <Paper elevation={10}>
+                            <Stack>
+                                <img src={logo} style={{
+                                    width: 50,
+                                    height: 50,
+                                    margin: '0 auto',
+                                    marginTop: 36,
+                                    marginBottom: 0,
+                                    padding: 0
+                                }
+                                } />
+                                <form onSubmit={handleSubmit} className="login-form">
+                                    <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Hello Again!</Typography></Center>
+                                    <TextField
+                                        style={{ width: 400, marginBottom: 16 }}
+                                        name="email" value={formData.email.value} onChange={handleChange}
+                                        label="Email" type="email" placeholder="Enter your email"
+                                        variant="outlined" margin="dense"
+                                        error={formData.email.error ? true : false}
+                                        helperText={formData.email.error ? formData.email.errorMessage : ""}
+                                    />
+                                    <CustomPasswordField
+                                        password={formData.password.value}
+                                        showPassword={formData.showPassword.value}
+                                        handleChange={handleChange}
+                                        toggleShowPassword={toggleShowPassword}
+                                        error={formData.password.error}
+                                        errorMessage={formData.password.errorMessage}
+                                    />
+                                    <Box sx={{ flexGrow: 1 }}>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={8}>
+                                                <FormGroup>
+                                                    <FormControlLabel
+                                                        name="rememberMe" value={formData.rememberMe.value} onChange={handleChange} control={<Checkbox defaultChecked />} label="Remember me" />
+                                                </FormGroup>
+                                            </Grid>
+                                            <Grid item xs={4} style={{ marginTop: 11 }}>
+                                                <Link href="#" underline="hover">
+                                                    {'Forgot password?'}
+                                                </Link>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={4} style={{ marginTop: 11 }}>
-                                            <Link href="#" underline="hover">
-                                                {'Forgot password?'}
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                                <Button style={{ width: 400, marginTop: 16 }} variant="contained" type="submit">Login</Button>
-                                <Center>
-                                    <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link component={RouterLink} to="/register" underline="hover">{'Sign up'}</Link> </Typography>
-                                </Center>
-                            </form>
-                        </Stack>
-                    </Paper>
-                </Box>
-            </Container>
+                                    </Box>
+                                    <Button style={{ width: 400, marginTop: 16 }} variant="contained" type="submit">Login</Button>
+                                    <Center>
+                                        <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link component={RouterLink} to="/register" underline="hover">{'Sign up'}</Link> </Typography>
+                                    </Center>
+                                </form>
+                            </Stack>
+                        </Paper>
+                    </Box>
         </>
     );
 }

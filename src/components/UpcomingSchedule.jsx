@@ -1,32 +1,26 @@
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Paper from "@mui/material/Paper";
-import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Center from "./utils/Center"
 
 export default function UpcomingSchedule() {
   return (
-    <Container maxWidth="sm">
-         <Box
-            sx={{
-                '& > :not(style)': {
-                m: 1,
-                width: 400,
-                height: 410,
-                },
-            }}>
-            <Paper elevation={10}>
-                <Typography variant="h5" sx={{ml: 7, pt:2}}>
+    <Grid container sx={{justifyContent:"center"}}>
+            <Paper elevation={10} sx={{pr:5, pl:5}}>
+                <Center>
+                <Typography variant="h5" sx={{ml: 7, mr:3, pt:2}}>
                 Upcoming schedule 2022
                 </Typography>
+                </Center>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 <Divider />
                 <ListItem button>
@@ -67,7 +61,6 @@ export default function UpcomingSchedule() {
                 <Button sx={{ml:17, mt:1}} variant="outlined">View all</Button>
                 </List>
             </Paper>
-        </Box>
-    </Container>
+        </Grid>
   );
 }

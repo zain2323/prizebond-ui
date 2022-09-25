@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -52,17 +53,18 @@ const rows = [
 
 export default function DrawsInfoPage() {
   return (
-    <Container sx={{
+    <Grid container sx={{
         mt: 2,
         mb:2    
     }}>
+      
     <Box
           sx={{
             display: 'flex',
             '& > :not(style)': {
               m: 5,
               width: "100%",
-              height: 470,
+            
               borderRadius: 2
             },
           }}
@@ -108,6 +110,6 @@ We also feature in depth information and metrics from Pakistan Finance Ministry,
             </TableBody>
         </Table>
         </TableContainer>
-    </Container>
+    </Grid>
   );
 }
