@@ -15,7 +15,6 @@ export default class Client {
           access_token: access_token,
           refresh_token: refresh_token
         }); 
-        console.log(refreshedResponse)
         if (refreshedResponse.ok) {
           localStorage.setItem("accessToken", refreshedResponse.body.access_token);
           localStorage.setItem("refreshToken", refreshedResponse.body.refresh_token);
@@ -30,10 +29,9 @@ export default class Client {
         if (query !== '') {
             query = '?' + query
         }
-        
         let response;
         try {
-          response = await fetch(this.baseUrl + options.url, {
+          response = await fetch(this.baseUrl + options.url + query, {
             method: options.method,
             headers: {
               'Content-Type': 'application/json',

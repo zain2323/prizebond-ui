@@ -86,7 +86,7 @@ We also feature in depth information and metrics from Pakistan Finance Ministry,
           </Paper>
         </Box>
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{m:5}}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
             <TableRow>

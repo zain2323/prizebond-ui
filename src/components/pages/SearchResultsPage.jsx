@@ -11,6 +11,7 @@ import { SwipeRightAltTwoTone } from '@mui/icons-material';
 
 
 export default function SearchResultsPage() {
+    const LAST_SIX_YEARS = "Last six years"
     const api = useApi();
     const [denominations, setDenominations] = React.useState([])
     const [drawDate, setDrawDate] = React.useState([]);
@@ -42,9 +43,12 @@ export default function SearchResultsPage() {
                 }
             }
         })
-        if (name === "denomination") {
+        if (name === "denomination" && value) {
             fetchDrawDate(value)
             fetchSerials(value)
+        }
+        else if (name === "denomination") {
+            setDrawDate(null)
         }
     }
 
@@ -79,12 +83,32 @@ export default function SearchResultsPage() {
         fetchDenominations()
     }, [api])
 
-    function handleSubmit() {
+    const handleSubmit = async (event) => {
         const denomination = formData.denomination.value;
         const date = formData.drawDate.value;
         if (denomination && date && serial) {
-            console.log("data submitted")
-            console.log(denomination, date, serial.price ? serial.serial : serial)
+            if (serial.price && date !== LAST_SIX_YEARS) {
+                const response = await api.get("/search", {
+                    "serial": serial.serial,
+                    "price": denomination,
+                    "date": date
+                })
+                console.log(response.ok ? response.body: "error")
+            }
+            else if (!serial.price && date !== LAST_SIX_YEARS){
+                const response = await api.get("/search/serials", {
+                    "price": denomination,
+                    "date": date
+                })
+                console.log(response.ok ? response.body: "error")
+            }
+            else {
+                const response = await api.get("/search/serials/denomination", {
+                    "price": denomination
+                })
+                console.log(response.ok ? response.body: "error")           
+            }
+
         }
         else {
             console.log("Failed")
@@ -148,6 +172,9 @@ export default function SearchResultsPage() {
                                         <MenuItem key={val.id} value={val.date}>{val.date}</MenuItem>
                                     )
                                 })}
+                                {drawDate != null &&
+                                    <MenuItem key={LAST_SIX_YEARS} value={LAST_SIX_YEARS}>{LAST_SIX_YEARS}</MenuItem>
+                                }
 
                             </Select>
                         </FormControl>
