@@ -139,7 +139,6 @@ export default function RegisterPage() {
     }
 
     function getPaperHeight() {
-        console.log("executed")
         if (formData.email.error || 
             formData.password.error ||
             formData.fullname.error) {
@@ -154,20 +153,8 @@ export default function RegisterPage() {
         <>
             <ProgressBar/>
             <AlertMessage />
-            <Container maxWidth="sm">
-                <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                    marginTop: 7, 
-                    marginBottom: 8,
-                    width: 500,
-                    height: getPaperHeight(),
-                    },
-                }}
-                >
-                    <Paper elevation={10}>
+            <Container maxWidth="sm" sx={{mt:7, mb:8}}>
+                    <Paper elevation={10} sx={{height: getPaperHeight}}>
                         <Stack>
                             <img src={logo} style={{
                                 width:50, 
@@ -180,7 +167,7 @@ export default function RegisterPage() {
                             <form onSubmit={handleSubmit} className="login-form">
                             <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Join Us!</Typography></Center>
                             <TextField 
-                                    style={{width: 400, marginBottom: 16}} 
+                                    style={{width: "103%", marginBottom: 16}} 
                                     name="fullname" value={formData.fullname.value} onChange={handleChange}
                                     label="Name" type="text" placeholder="Enter your name" 
                                     variant="outlined" margin="dense"
@@ -188,7 +175,7 @@ export default function RegisterPage() {
                                     helperText={formData.fullname.error ? formData.fullname.errorMessage: ""}
                                     />
                                 <TextField 
-                                    style={{width: 400, marginBottom: 16}} 
+                                    style={{width: "103%", marginBottom: 16}} 
                                     name="email" value={formData.email.value} onChange={handleChange}
                                     label="Email" type="email" placeholder="Enter your email" 
                                     variant="outlined" margin="dense"
@@ -203,14 +190,13 @@ export default function RegisterPage() {
                                     error={formData.password.error}
                                     errorMessage={formData.password.errorMessage}
                                 />
-                                <Button style={{width: 400, marginTop: 16}} variant="contained" type="submit">Sign up</Button>
+                                <Button style={{width: "103%", marginTop: 16}} variant="contained" type="submit">Sign up</Button>
                                 <Center>
                                     <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Already have an account? <Link component={RouterLink} to="/login" underline="hover">{'Login'}</Link> </Typography> 
                                 </Center>
                             </form>
                         </Stack>
                     </Paper>
-                </Box>
             </Container>
         </>
       );

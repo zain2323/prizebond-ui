@@ -7,7 +7,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material'
 export default function CustomPasswordField(
     {password, showPassword, handleChange, toggleShowPassword, error, errorMessage}) {
     return (
-        <FormControl error={error} style={{width: 400, marginBottom: 16}} variant="outlined" margin="dense" placeholder="Enter your password">
+        <FormControl error={error} style={{width: "103%", marginBottom: 16}} variant="outlined" margin="dense" placeholder="Enter your password">
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
