@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
-const signedIn = ["Add bonds", "Add series", "Check results"]
+const signedIn = ["My bonds", "Add bonds", "Add series", "Check results"]
 const pagesLink = {
   "Home": "/",
   "Results": "/results",
@@ -34,6 +34,7 @@ const pagesLink = {
   "Draws Info": "/draws-info",
   "Login": "/login",
   "Register": "/register",
+  "My bonds": "/user",
   "Add bonds": "/add-bonds",
   "Add series": "/add-series",
   "Check results": "/search-results"

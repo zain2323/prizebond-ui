@@ -14,7 +14,6 @@ export default function ResultsPage() {
 
     async function fetchBonds() {
         const response = await api.get("/result")
-        console.log(response.body)
         setBonds(response.ok ? response.body : [])
     }
 
