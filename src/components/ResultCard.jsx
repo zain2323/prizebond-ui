@@ -24,7 +24,7 @@ export default function ResultCard({ heading, first, second }) {
             2nd Prize
           </Typography>
           <Typography color="text.secondary">
-            {String(second)}
+            {second.map((el, index) => index < second.length -1 ? el + ", " : el)}
           </Typography>
         </CardContent>
         <CardActions>

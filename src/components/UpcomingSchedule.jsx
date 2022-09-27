@@ -17,7 +17,7 @@ export default function UpcomingSchedule() {
     <Grid container sx={{justifyContent:"center"}}>
             <Paper elevation={10} sx={{pr:5, pl:5}}>
                 <Center>
-                <Typography variant="h5" sx={{ml: 7, mr:3, pt:2}}>
+                <Typography variant="h5" sx={{ml: 5, mr:3, pt:2, mr: 5}}>
                 Upcoming schedule 2022
                 </Typography>
                 </Center>
