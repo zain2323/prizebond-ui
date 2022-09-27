@@ -115,7 +115,7 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {user === null && pages.map((page) => (
                 <MenuItem
                   key={page}
                   onClick={handleCloseNavMenu}
@@ -124,7 +124,7 @@ const Navbar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-              <Divider />
+              {user === null && <Divider />}
               {user === null && notSignedIn.map((page) => (
                 <MenuItem
                   key={page}
@@ -135,7 +135,11 @@ const Navbar = () => {
                 </MenuItem>
               ))}
               {user !== null && signedIn.map((page) => (
-                <MenuItem key={page} onClick={logout}>
+                <MenuItem 
+                  key={page} 
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={pagesLink[page]}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -193,7 +197,7 @@ const Navbar = () => {
               ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'flex' } }}>
             {user === null &&
               notSignedIn.map((item) => (
                 <NavLink

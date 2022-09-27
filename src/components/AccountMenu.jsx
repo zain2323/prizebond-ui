@@ -6,16 +6,16 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
+import DownloadIcon from '@mui/icons-material/Download';
 import Logout from '@mui/icons-material/Logout';
 import {Link as RouterLink} from 'react-router-dom';
+import { useUser } from "../contexts/UserProvider";
 
 
 
 export default function AccountMenu({logout}) {
+  const { user } = useUser()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -36,7 +36,7 @@ export default function AccountMenu({logout}) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>{user.name[0]}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -75,21 +75,15 @@ export default function AccountMenu({logout}) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem component={RouterLink} to="/account-settings">
           <Avatar /> My account
         </MenuItem>
         <Divider />
         <MenuItem>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <DownloadIcon fontSize="small" />
           </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem component={RouterLink} to="/account-settings">
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
+          Download bonds
         </MenuItem>
         <MenuItem onClick={logout}>
           <ListItemIcon>
