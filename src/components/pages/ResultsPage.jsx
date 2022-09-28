@@ -1,12 +1,13 @@
 import React from "react"
 import { Grid } from 'gridjs-react';
 import "gridjs/dist/theme/mermaid.css";
-import {Container, Typography} from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {useApi} from "../../contexts/ApiProvider";
+import { useApi } from "../../contexts/ApiProvider";
+import { motion } from "framer-motion";
 
 export default function ResultsPage() {
     const api = useApi();
@@ -22,22 +23,28 @@ export default function ResultsPage() {
     }, [api])
 
     return (
-        <Container>
-            <Typography variant="h4" sx={{mt: 2, mb: 2}}>
-                Search your results
-            </Typography>
-            <Grid
-                data={bonds.map(bond => {
-                    return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
-                })}
-                autoWidth={false}
-                columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
-                search={true}
-                sort={true}
-                pagination={{
-                enabled: true,
-                limit: 10,
-            }}/>
-    </Container>
+        <motion.div 
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}
+            >
+            <Container>
+                <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
+                    Search your results
+                </Typography>
+                    <Grid
+                        data={bonds.map(bond => {
+                            return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
+                        })}
+                        autoWidth={false}
+                        columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
+                        search={true}
+                        sort={true}
+                        pagination={{
+                            enabled: true,
+                            limit: 10,
+                        }} />
+            </Container>
+        </motion.div>
     )
 }

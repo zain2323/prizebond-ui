@@ -11,7 +11,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import Center from "../utils/Center";
 import { useUser } from '../../contexts/UserProvider'
 import { useApi } from '../../contexts/ApiProvider'
-
+import {motion} from "framer-motion";
 
 export default function AccountSettingsPage() {
     const { user } = useUser()
@@ -56,6 +56,11 @@ export default function AccountSettingsPage() {
     }
 
     return (
+        <motion.div 
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}
+            >
         <Container sx={{
             mt: 5,
             mb: 5
@@ -95,5 +100,6 @@ export default function AccountSettingsPage() {
             </Center>
             
         </Container>
+        </motion.div>
     )
 }

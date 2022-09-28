@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useApi } from "../../contexts/ApiProvider";
 import ProgressBar from "../utils/ProgessBar"
 import { useLoadingBar } from '../../contexts/LoadingBarProvider'
-
+import {motion} from 'framer-motion';
 
 export default function RegisterPage() {  
     const [formData, setFormData] = React.useState({
@@ -150,7 +150,10 @@ export default function RegisterPage() {
     }
     
     return (
-        <>
+        <motion.div 
+        initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}>
             <ProgressBar/>
             <AlertMessage />
             <Container maxWidth="sm" sx={{mt:7, mb:8}}>
@@ -198,6 +201,6 @@ export default function RegisterPage() {
                         </Stack>
                     </Paper>
             </Container>
-        </>
+        </motion.div>
       );
 }

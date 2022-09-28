@@ -168,6 +168,7 @@ const Navbar = () => {
             {user === null &&
               pages.map((page) => (
                 <NavLink 
+                key={page}
                 to={pagesLink[page]}
                 className="link">
                     <Button
@@ -184,6 +185,7 @@ const Navbar = () => {
             {user !== null &&
               signedIn.map((item) => (
                 <NavLink
+                key={item}
                 to={pagesLink[item]}
                 className="link">
                   <Button
@@ -201,6 +203,7 @@ const Navbar = () => {
             {user === null &&
               notSignedIn.map((item) => (
                 <NavLink
+                key={item}
                 to={pagesLink[item]}
                 className="link">
                   <Button

@@ -9,6 +9,7 @@ import { useLoadingBar } from '../../contexts/LoadingBarProvider'
 import AlertMessage from "../utils/AlertMessage"
 import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import {motion} from "framer-motion";
 
 
 export default function LoggedInUserLandingPage() {
@@ -25,7 +26,11 @@ export default function LoggedInUserLandingPage() {
     }, [api])
 
     return (
-        <>
+        <motion.div 
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}
+            >
             <ProgressBar />
             <AlertMessage />
             <Container maxWidth="lg">
@@ -43,6 +48,6 @@ export default function LoggedInUserLandingPage() {
                     sort={true}
                     pagination={true} />
             </Container>
-        </>
+        </motion.div>
     )
 }

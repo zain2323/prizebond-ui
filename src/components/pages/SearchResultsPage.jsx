@@ -12,7 +12,7 @@ import ProgressBar from "../utils/ProgessBar"
 import AlertMessage from "../utils/AlertMessage"
 import { useFlash } from '../../contexts/FlashProvider'
 import { useLoadingBar } from '../../contexts/LoadingBarProvider'
-
+import { motion } from "framer-motion";
 
 export default function SearchResultsPage() {
     const navigate = useNavigate()
@@ -130,7 +130,9 @@ export default function SearchResultsPage() {
     }
 
     return (
-        <>
+        <motion.div initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}>
             <ProgressBar />
             <AlertMessage />
             <Container maxWidth="sm">
@@ -229,6 +231,6 @@ export default function SearchResultsPage() {
                     </Paper>
                 </Box>
             </Container>
-        </>
+        </motion.div>
     );
 }

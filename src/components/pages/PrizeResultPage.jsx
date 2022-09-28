@@ -9,13 +9,17 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import AlertMessage from "../utils/AlertMessage"
 import ProgressBar from "../utils/ProgessBar"
-
+import {motion} from "framer-motion"
 
 export default function PrizeResult() {
     const location = useLocation();
     const bonds = location.state.response
     return (
-        <>
+        <motion.div 
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}
+            >
             <ProgressBar />
             <AlertMessage />
             <Container>
@@ -34,6 +38,6 @@ export default function PrizeResult() {
                         limit: 10,
                     }} />
             </Container>
-        </>
+        </motion.div>
     )
 }

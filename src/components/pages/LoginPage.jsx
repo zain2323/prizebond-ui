@@ -16,6 +16,7 @@ import { useLoadingBar } from '../../contexts/LoadingBarProvider'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import ProgressBar from "../utils/ProgessBar"
+import { motion } from "framer-motion";
 
 
 export default function LoginPage() {
@@ -138,11 +139,14 @@ export default function LoginPage() {
     }
 
     return (
-        <>
-        <ProgressBar />
-        <AlertMessage />
-        <Container maxWidth="sm" sx={{mt:8, mb:8}}>
-                <Paper elevation={10} sx={{height: getPaperHeight}}>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}>
+            <ProgressBar />
+            <AlertMessage />
+            <Container maxWidth="sm" sx={{ mt: 8, mb: 8 }}>
+                <Paper elevation={10} sx={{ height: getPaperHeight }}>
                     <Stack>
                         <img src={logo} style={{
                             width: 50,
@@ -193,7 +197,7 @@ export default function LoginPage() {
                         </form>
                     </Stack>
                 </Paper>
-        </Container>
-        </>
+            </Container>
+        </motion.div>
     );
 }

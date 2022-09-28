@@ -15,6 +15,7 @@ export default function PrivateRoute({children}) {
     }
     else {
         const url = location.pathname + location.search + location.hash;
+        console.log(url)
         flash("Login required", "You need to login to access this page.", "info");
         return <Navigate to="/login" state={{next: url}}/>
     }

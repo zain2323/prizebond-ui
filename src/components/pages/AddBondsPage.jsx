@@ -12,6 +12,7 @@ import { useLoadingBar } from '../../contexts/LoadingBarProvider';
 import AlertMessage from "../utils/AlertMessage";
 import { useFlash } from '../../contexts/FlashProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {motion} from 'framer-motion';
 // import { useLoadingContext } from "react-router-loading";
 
 
@@ -122,7 +123,11 @@ export default function AddBondsPage() {
     }
 
     return (
-        <>
+        <motion.div 
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0}}
+            >
             <ProgressBar />
             <AlertMessage />
 
@@ -188,6 +193,6 @@ export default function AddBondsPage() {
                     </Paper>
                 </Box>
             </Container>
-        </>
+        </motion.div>
     );
 }

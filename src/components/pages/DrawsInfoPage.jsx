@@ -15,6 +15,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import {motion} from "framer-motion";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +55,11 @@ const rows = [
 
 export default function DrawsInfoPage() {
   return (
+    <motion.div
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      exit={{opacity:0}}
+      >
     <Grid container sx={{
         mt: 2,
         mb:2    
@@ -111,5 +118,6 @@ We also feature in depth information and metrics from Pakistan Finance Ministry,
         </Table>
         </TableContainer>
     </Grid>
+    </motion.div>
   );
 }
