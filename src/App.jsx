@@ -13,6 +13,7 @@ import AddBondSeriesPage from "./components/pages/AddBondSeriesPage";
 import UpcomingResultsPage from "./components/pages/UpcomingResultsPage";
 import AccountSettingsPage from "./components/pages/AccountSettingsPage";
 import LoggedInUserLandingPage from "./components/pages/LoggedInUserLandingPage";
+import PrizeResultPage from "./components/pages/PrizeResultPage";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ApiProvider from "./contexts/ApiProvider";
@@ -63,6 +64,7 @@ export default function App() {
                         <Route path='/account-settings' element={<AccountSettingsPage />} />
                         <Route path='/user' element={<LoggedInUserLandingPage />} />
                         <Route path='/search-results' element={<SearchResultsPage />} />
+                        <Route path='/prize-result' element={<PrizeResultPage />} />
                         <Route path="*" element={<Navigate to="/" />} />
                       </Routes>
                     </PrivateRoute>
