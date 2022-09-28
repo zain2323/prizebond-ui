@@ -38,24 +38,26 @@ export default function Announcements() {
 
 function Item(props) {
     return (
+        <Container maxWidth="false" disableGutters>
         <Paper
             elevation={10}
             sx={{
                 width: '100%',
-                height: 490,
                 ml: 0,
                 pl: 0,
-                bgcolor: "#424242"
+                background: "rgb(97,97,97)",
+                background: "linear-gradient(90deg, rgba(97,97,97,1) 10%, rgba(38,40,41,1) 100%)" 
             }}
         >
             <Container>
-                <Typography component={'div'} sx={{ p: 5 }} variant="h4" color="white">{props.item.name}</Typography>
-                <Typography component={'div'} sx={{ p: 5 }} variant="h5" color="white">{props.item.first}</Typography>
-                <Typography component={'div'} sx={{ p: 5 }} variant="h5" color="white">{props.item.second}</Typography>
+                <Typography component={'div'} sx={{ p: 3 }} variant="h4" color="white">{props.item.name}</Typography>
+                <Typography component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.first}</Typography>
+                <Typography component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.second}</Typography>
                 <CustomButton size="large" color="secondary" variant="outlined">
                     View Now
                 </CustomButton>
             </Container>
         </Paper>
+        </Container>
     )
 }
