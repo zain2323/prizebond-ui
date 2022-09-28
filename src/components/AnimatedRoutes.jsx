@@ -13,6 +13,13 @@ import LoggedInUserLandingPage from "./pages/LoggedInUserLandingPage";
 import PrizeResultPage from "./pages/PrizeResultPage";
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import ScrollToTop from "./ScrollToTop";
+import ApiProvider from "../contexts/ApiProvider";
+import UserProvider from "../contexts/UserProvider";
+import LoadingBarProvider from "../contexts/LoadingBarProvider";
+import FlashProvider from "../contexts/FlashProvider";
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
@@ -21,42 +28,53 @@ export default function AnimatedRoutes() {
 
     return (
         <AnimatePresence>
-            <Routes location={location} key={location.pathname}>
-                <Route path='/' element={<HomePage />} />
-                <Route path="/login" element={
-                    <PublicRoute><LoginPage /></PublicRoute>
-                }>
-                </Route>
-                <Route path="/register" element={
-                    <PublicRoute><RegisterPage /></PublicRoute>
-                }>
-                </Route>
-                <Route path="/draws-info" element={
-                    <PublicRoute><DrawsInfoPage /></PublicRoute>
-                }>
-                </Route>
-                <Route path="/results" element={
-                    <PublicRoute><ResultsPage /></PublicRoute>
-                }>
-                </Route>
-                <Route path="/upcoming-results" element={
-                    <PublicRoute><UpcomingResultsPage /></PublicRoute>
-                }>
-                </Route>
-                <Route path="*" element={
-                    <PrivateRoute>
-                        <Routes>
-                            <Route path='/add-bonds' element={<AddBondsPage />} />
-                            <Route path='/add-series' element={<AddBondSeriesPage />} />
-                            <Route path='/account-settings' element={<AccountSettingsPage />} />
-                            <Route path='/user' element={<LoggedInUserLandingPage />} />
-                            <Route path='/search-results' element={<SearchResultsPage />} />
-                            <Route path='/prize-result' element={<PrizeResultPage />} />
-                            <Route path="*" element={<Navigate to="/" />} />
-                        </Routes>
-                    </PrivateRoute>
-                } />
-            </Routes>
+            <ApiProvider>
+                <FlashProvider>
+                    <LoadingBarProvider>
+                        <UserProvider>
+                            <ScrollToTop />
+                            <Navbar />
+                            <Routes location={location} key={location.pathname}>
+                                <Route path='/' element={<HomePage />} />
+                                <Route path="/login" element={
+                                    <PublicRoute><LoginPage /></PublicRoute>
+                                }>
+                                </Route>
+                                <Route path="/register" element={
+                                    <PublicRoute><RegisterPage /></PublicRoute>
+                                }>
+                                </Route>
+                                <Route path="/draws-info" element={
+                                    <PublicRoute><DrawsInfoPage /></PublicRoute>
+                                }>
+                                </Route>
+                                <Route path="/results" element={
+                                    <PublicRoute><ResultsPage /></PublicRoute>
+                                }>
+                                </Route>
+                                <Route path="/upcoming-results" element={
+                                    <PublicRoute><UpcomingResultsPage /></PublicRoute>
+                                }>
+                                </Route>
+                                <Route path="*" element={
+                                    <PrivateRoute>
+                                        <Routes>
+                                            <Route path='/add-bonds' element={<AddBondsPage />} />
+                                            <Route path='/add-series' element={<AddBondSeriesPage />} />
+                                            <Route path='/account-settings' element={<AccountSettingsPage />} />
+                                            <Route path='/user' element={<LoggedInUserLandingPage />} />
+                                            <Route path='/search-results' element={<SearchResultsPage />} />
+                                            <Route path='/prize-result' element={<PrizeResultPage />} />
+                                            <Route path="*" element={<Navigate to="/" />} />
+                                        </Routes>
+                                    </PrivateRoute>
+                                } />
+                            </Routes>
+                            <Footer />
+                        </UserProvider>
+                    </LoadingBarProvider>
+                </FlashProvider>
+            </ApiProvider>
         </AnimatePresence>
     )
 }
