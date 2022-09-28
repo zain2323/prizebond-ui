@@ -13,6 +13,16 @@ import AlertMessage from "../utils/AlertMessage"
 import { useFlash } from '../../contexts/FlashProvider'
 import { useLoadingBar } from '../../contexts/LoadingBarProvider'
 import { motion } from "framer-motion";
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#2979ff',
+        darker: '#2962ff',
+      },
+    },
+  });
 
 export default function SearchResultsPage() {
     const navigate = useNavigate()
@@ -151,7 +161,7 @@ export default function SearchResultsPage() {
                 >
                     <Paper elevation={10}>
                         <Stack>
-                            <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Search your results!</Typography></Center>
+                            <Center><Typography component={'div'} mb={0} mt={5} variant="h4" gutterBottom>Search your results!</Typography></Center>
                             <FormControl
                                 sx={{ minWidth: 120, m: 5, mb: 4 }}>
                                 <InputLabel id="denomiantion-label">Denomination</InputLabel>
@@ -221,11 +231,11 @@ export default function SearchResultsPage() {
                                 renderInput={(params) => <TextField {...params} label="Serials" />}
                             />
 
-                            <Button onClick={handleSubmit} sx={{ mb: 4, ml: 5, mr: 5 }} variant="contained">
+                            <Button theme={theme} color="primary" onClick={handleSubmit} sx={{ mb: 4, ml: 5, mr: 5, borderRadius:20 }} variant="contained">
                                 Search
                             </Button>
                             <Center>
-                                <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add series'}</Link> </Typography>
+                                <Typography component={'div'} color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add series'}</Link> </Typography>
                             </Center>
                         </Stack>
                     </Paper>

@@ -23,7 +23,7 @@ export default function PrizeResult() {
             <ProgressBar />
             <AlertMessage />
             <Container>
-                <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
+                <Typography component={'div'} variant="h4" sx={{ mt: 2, mb: 2 }}>
                     Your Results
                 </Typography>
                 <Grid

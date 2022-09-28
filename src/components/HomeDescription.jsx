@@ -22,12 +22,12 @@ export default function HomeDescription() {
         }}
       >
         <Paper elevation={10}>
-          <Typography variant="h4" sx={{
+          <Typography component={'div'} variant="h4" sx={{
             pl: 5, pr: 5, pt: 3
           }}>
             Fast bond
           </Typography>
-          <Typography variant="subtitle1" sx={{
+          <Typography component={'div'} variant="subtitle1" sx={{
             pl: 5, pr: 5, pt: 3, pb: 5
           }}>
             Pakistan Prize Bond .Com by National Savings Center is an authentic source of information pertaining to Pakistani Prize Bonds. These are one of the legitimate investments whose demand is increasing day by day just like Pakistan Savings Certificates.

@@ -35,7 +35,7 @@ export default function LoggedInUserLandingPage() {
             <AlertMessage />
             <Container maxWidth="lg">
                 <Center>
-                    <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
+                    <Typography component={'div'} variant="h4" sx={{ mt: 2, mb: 2 }}>
                         Your Bonds
                     </Typography>
                 </Center>

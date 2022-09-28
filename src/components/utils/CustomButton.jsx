@@ -79,7 +79,7 @@ export default function ButtonBases() {
             <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
             <Image>
                 <Typography
-                component="span"
+                component="div"
                 variant="subtitle1"
                 color="inherit"
                 sx={{

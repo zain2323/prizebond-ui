@@ -17,7 +17,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import ProgressBar from "../utils/ProgessBar"
 import { motion } from "framer-motion";
+import { createTheme } from '@mui/material/styles';
 
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#2979ff',
+        darker: '#2962ff',
+      },
+    },
+  });
 
 export default function LoginPage() {
     const flash = useFlash();
@@ -158,7 +167,7 @@ export default function LoginPage() {
                         }
                         } />
                         <form onSubmit={handleSubmit} className="login-form">
-                            <Center><Typography mb={2} mt={-5} variant="h4" gutterBottom>Hello Again!</Typography></Center>
+                            <Center><Typography component={'div'} mb={2} mt={-5} variant="h4" gutterBottom>Hello Again!</Typography></Center>
                             <TextField
                                 style={{ width: "103%", marginBottom: 16 }}
                                 name="email" value={formData.email.value} onChange={handleChange}
@@ -190,9 +199,9 @@ export default function LoginPage() {
                                     </Grid>
                                 </Grid>
                             </Box>
-                            <Button style={{ width: "103%", marginTop: 16 }} variant="contained" type="submit">Login</Button>
+                            <Button theme={theme} color="primary" style={{ width: "103%", marginTop: 16, borderRadius:20 }} variant="contained" type="submit">Login</Button>
                             <Center>
-                                <Typography color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link component={RouterLink} to="/register" underline="hover">{'Sign up'}</Link> </Typography>
+                                <Typography component={'div'} color="text.secondary" mt={5} variant="subtitle1" gutterBottom>Don't have an account? <Link component={RouterLink} to="/register" underline="hover">{'Sign up'}</Link> </Typography>
                             </Center>
                         </form>
                     </Stack>

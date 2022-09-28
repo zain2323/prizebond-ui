@@ -14,6 +14,16 @@ import { useFlash } from '../../contexts/FlashProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {motion} from "framer-motion";
 // import { useLoadingContext } from "react-router-loading";
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#2979ff',
+        darker: '#2962ff',
+      },
+    },
+  });
 
 
 export default function AddBondSeriesPage() {
@@ -199,7 +209,7 @@ export default function AddBondSeriesPage() {
 
                         <form onSubmit={handleSubmit}>
                             <Stack>
-                                <Center><Typography mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
+                                <Center><Typography component={'div'} mb={0} mt={5} variant="h4" gutterBottom>Add your bonds!</Typography></Center>
                                 <FormControl required
                                     sx={{ minWidth: 120, m: 5, mb: 4 }}>
                                     <InputLabel id="denomiantion-label">Denomination</InputLabel>
@@ -238,11 +248,11 @@ export default function AddBondSeriesPage() {
                                         helperText={formData.end.error ? formData.end.errorMessage : ""} />
                                 </Stack>
 
-                                <Button type="submit" sx={{ mt: 2, mb: 4, ml: 5, mr: 5 }} variant="contained">
+                                <Button theme={theme} color="primary" type="submit" sx={{ mt: 2, mb: 4, ml: 5, mr: 5, borderRadius: 20 }} variant="contained">
                                     Add
                                 </Button>
                                 <Center>
-                                    <Typography color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add bonds'}</Link></Typography>
+                                    <Typography component={'div'} color="text.secondary" variant="subtitle1" gutterBottom>Want to add bonds? <Link component={RouterLink} to="/add-bonds" underline="hover">{'Add bonds'}</Link></Typography>
                                 </Center>
                             </Stack>
                         </form>

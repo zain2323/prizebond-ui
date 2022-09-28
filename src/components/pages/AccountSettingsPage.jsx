@@ -66,15 +66,15 @@ export default function AccountSettingsPage() {
             mb: 5
         }}>
             <Center>
-                <Typography sx={{ mb: 5 }} variant="h3">General Account Settings</Typography>
+                <Typography sx={{ mb: 5 }} component={'div'} variant="h3">General Account Settings</Typography>
             </Center>
             <GridTable
                 data={[
-                    [_(<Typography variant="h6">Name</Typography>), _(<Typography sx={{textTransform: "capitalize"}} variant="body1">{user.name}</Typography>), editButton],
-                    [_(<Typography variant="h6">Email</Typography>), _(<Typography variant="body1">{user.email}</Typography>), editButton],
-                    [_(<Typography variant="h6">Password</Typography>), _(<Typography variant="body1">**********</Typography>), editButton],
-                    [_(<Typography variant="h6">Confirmed</Typography>), _(<Typography variant="body1">{user.confirmed ? "Confirmed": "Not Confirmed"}</Typography>), editButton],
-                    [_(<Typography variant="h6">Registered At</Typography>), _(<Typography variant="body1">{new Date(user.registered_at).toDateString()}</Typography>), editButton]
+                    [_(<Typography component={'div'} variant="h6">Name</Typography>), _(<Typography component={'div'} sx={{textTransform: "capitalize"}} variant="body1">{user.name}</Typography>), editButton],
+                    [_(<Typography component={'div'} variant="h6">Email</Typography>), _(<Typography component={'div'} variant="body1">{user.email}</Typography>), editButton],
+                    [_(<Typography component={'div'} variant="h6">Password</Typography>), _(<Typography component={'div'} variant="body1">**********</Typography>), editButton],
+                    [_(<Typography component={'div'} variant="h6">Confirmed</Typography>), _(<Typography component={'div'} variant="body1">{user.confirmed ? "Confirmed": "Not Confirmed"}</Typography>), editButton],
+                    [_(<Typography component={'div'} variant="h6">Registered At</Typography>), _(<Typography component={'div'} variant="body1">{new Date(user.registered_at).toDateString()}</Typography>), editButton]
                 ]}
 
             />
@@ -84,16 +84,16 @@ export default function AccountSettingsPage() {
             <GridTable
                 columns={["Denomination", "Total Numbers", "Worth (In Rs)"]}
                 data={info.map(data=> {
-                    return [_(<Typography variant="h6">Rs.{data.price}</Typography>), 
-                            _(<Typography variant="body1">{parseInt(data.total) < 9 ? "0"+data.total: data.total}</Typography>), 
-                            _(<Typography variant="body1">Rs.{data.worth}</Typography>)]
+                    return [_(<Typography component={'div'} variant="h6">Rs.{data.price}</Typography>), 
+                            _(<Typography component={'div'} variant="body1">{parseInt(data.total) < 9 ? "0"+data.total: data.total}</Typography>), 
+                            _(<Typography component={'div'} variant="body1">Rs.{data.worth}</Typography>)]
                 })}
             />
              <Center>
                 <GridTable
                 columns={["Number of bonds", "Total Investment"]}
                 data={[
-                    [_(<Typography variant="h6">{getTotalBonds()}</Typography>), _(<Typography variant="h6">Rs.{getTotalWorth()}</Typography>)]
+                    [_(<Typography component={'div'} variant="h6">{getTotalBonds()}</Typography>), _(<Typography variant="h6">Rs.{getTotalWorth()}</Typography>)]
                 ]}
 
             />

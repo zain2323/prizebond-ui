@@ -11,13 +11,23 @@ import Paper from "@mui/material/Paper";
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Center from "./utils/Center"
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#2979ff',
+        darker: '#2962ff',
+      },
+    },
+  });
 
 export default function UpcomingSchedule() {
   return (
     <Grid container sx={{justifyContent:"center"}}>
             <Paper elevation={10} sx={{pr:5, pl:5}}>
                 <Center>
-                <Typography variant="h5" sx={{ml: 5, mr:3, pt:2, mr: 5}}>
+                <Typography component={'div'} variant="h5" sx={{ml: 5, mr:3, pt:2, mr: 5}}>
                 Upcoming schedule 2022
                 </Typography>
                 </Center>
@@ -58,7 +68,7 @@ export default function UpcomingSchedule() {
                     </ListItemAvatar>
                     <ListItemText primary="Rs.1500 at Lahore" secondary="July 20, 2022" />
                 </ListItem>
-                <Button sx={{ml:17, mt:1}} variant="outlined">View all</Button>
+                <Button theme={theme} color="primary" sx={{ml:15, mt:1}} variant="outlined">View all</Button>
                 </List>
             </Paper>
         </Grid>

@@ -41,7 +41,7 @@ export default function UpcomingResultsPage() {
         mt: 2,
         mb: 2
       }}>
-        <Typography variant="h4" sx={{
+        <Typography component={'div'} variant="h4" sx={{
           pl: 5, pr: 5, pt: 3, pb: 5
         }}>
           Prize bond schedule by National Savings 2022-23

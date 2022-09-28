@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
+import Stack from "@mui/material/Stack"
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -19,10 +20,8 @@ import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { useFlash } from '../contexts/FlashProvider'
 import { useLoadingBar } from '../contexts/LoadingBarProvider'
-import AlertMessage from "./utils/AlertMessage"
-import ProgressBar from "./utils/ProgessBar"
 import { useNavigate } from 'react-router-dom';
-
+import { createTheme } from '@mui/material/styles';
 
 const pages = ['Home', 'Results', 'Upcoming Results', 'Draws Info'];
 const notSignedIn = ['Login', "Register"]
@@ -39,6 +38,17 @@ const pagesLink = {
   "Add series": "/add-series",
   "Check results": "/search-results"
 }
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#212121",
+    },
+    secondary: {
+      main: '#616161',
+    },
+  },
+});
 
 const Navbar = () => {
   const flash = useFlash();
@@ -61,30 +71,38 @@ const Navbar = () => {
     flash("Logout Success", "You have been logged out", "success");
     navigate("/login");
     loadingBar.hideLoadingBar();
-  } 
+  }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary" theme={theme}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component={RouterLink}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            Fast Bond
-          </Typography>
+          <Stack direction="row" sx={{
+            "&:hover": {
+              borderRadius: 30,
+              backgroundColor: "#616161",
+              padding: 0.5
+            }
+          }}>
+            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1}} />
+            <Typography
+              variant="h6"
+              noWrap
+              component={RouterLink}
+              to="/"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none'
+              }}
+            >
+              Fast Bond
+            </Typography>
+            </Stack>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -121,7 +139,7 @@ const Navbar = () => {
                   onClick={handleCloseNavMenu}
                   component={RouterLink}
                   to={pagesLink[page]}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography component={'div'} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
               {user === null && <Divider />}
@@ -131,16 +149,16 @@ const Navbar = () => {
                   onClick={handleCloseNavMenu}
                   component={RouterLink}
                   to={pagesLink[page]}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography component={'div'} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
               {user !== null && signedIn.map((page) => (
-                <MenuItem 
-                  key={page} 
+                <MenuItem
+                  key={page}
                   onClick={handleCloseNavMenu}
                   component={RouterLink}
                   to={pagesLink[page]}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography component={'div'} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -167,31 +185,34 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {user === null &&
               pages.map((page) => (
-                <NavLink 
-                key={page}
-                to={pagesLink[page]}
-                className="link">
-                    <Button
+                <NavLink
+                  key={page}
+                  to={pagesLink[page]}
+                  className="link">
+                  <Button
                     key={page}
                     onClick={handleCloseNavMenu}
-                    sx={{color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-                
+                    sx={{
+                       color: 'white',
+                       display: 'block',
+                      }}
+                  >
+                    {page}
+                  </Button>
+
                 </NavLink>
-                
+
               ))}
             {user !== null &&
               signedIn.map((item) => (
                 <NavLink
-                key={item}
-                to={pagesLink[item]}
-                className="link">
+                  key={item}
+                  to={pagesLink[item]}
+                  className="link">
                   <Button
                     key={item}
                     onClick={handleCloseNavMenu}
-                    sx={{color: 'white', display: 'block' }}
+                    sx={{ color: 'white', display: 'block' }}
                   >
                     {item}
                   </Button>
@@ -203,13 +224,13 @@ const Navbar = () => {
             {user === null &&
               notSignedIn.map((item) => (
                 <NavLink
-                key={item}
-                to={pagesLink[item]}
-                className="link">
+                  key={item}
+                  to={pagesLink[item]}
+                  className="link">
                   <Button
                     key={item}
                     onClick={handleCloseNavMenu}
-                    sx={{color: 'white', display: 'block' }}
+                    sx={{ color: 'white', display: 'block' }}
                   >
                     {item}
                   </Button>
@@ -219,10 +240,11 @@ const Navbar = () => {
               <>
                 <Tooltip title="Notifications">
                   <IconButton>
-                    <Badge overlap="circular" color="secondary" badgeContent={99}>
+                    <Badge theme={theme} color="primary" overlap="circular" badgeContent={99}>
                       <NotificationsNoneIcon
                         sx={{
-                          mt: 1.2
+                          mt: 1.2,
+                          color: "white"
                         }} />
                     </Badge>
 

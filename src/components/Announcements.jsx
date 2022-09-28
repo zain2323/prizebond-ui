@@ -45,13 +45,13 @@ function Item(props) {
                 height: 490,
                 ml: 0,
                 pl: 0,
-                bgcolor: "#1976d2"
+                bgcolor: "#424242"
             }}
         >
             <Container>
-                <Typography sx={{ p: 5 }} variant="h4" color="white">{props.item.name}</Typography>
-                <Typography sx={{ p: 5 }} variant="h5" color="white">{props.item.first}</Typography>
-                <Typography sx={{ p: 5 }} variant="h5" color="white">{props.item.second}</Typography>
+                <Typography component={'div'} sx={{ p: 5 }} variant="h4" color="white">{props.item.name}</Typography>
+                <Typography component={'div'} sx={{ p: 5 }} variant="h5" color="white">{props.item.first}</Typography>
+                <Typography component={'div'} sx={{ p: 5 }} variant="h5" color="white">{props.item.second}</Typography>
                 <CustomButton size="large" color="secondary" variant="outlined">
                     View Now
                 </CustomButton>
