@@ -11,6 +11,8 @@ import { motion } from "framer-motion";
 import ProgressBar from "../utils/ProgessBar";
 import { useLoadingBar } from '../../contexts/LoadingBarProvider';
 import { useFlash } from '../../contexts/FlashProvider';
+import CircularProgress from '@mui/material/CircularProgress';
+import Center from ".././utils/Center";
 
 export default function ResultsPage() {
     const api = useApi();
@@ -22,6 +24,7 @@ export default function ResultsPage() {
     const [selectedDenomination, setSelectedDenomination] = React.useState("")
     const [drawDate, setDrawDate] = React.useState([])
     const [selectedDrawDate, setSelectedDrawDate] = React.useState("")
+    const [loading, setLoading] = React.useState(false)
 
     function handleDenominationChange(event) {
         const { value } = event.target
@@ -40,8 +43,10 @@ export default function ResultsPage() {
     }
 
     async function fetchBonds(denominationId, dateId) {
+        setLoading(true)
         const response = await api.get(`/result/${denominationId}/${dateId}`)
         setBonds(response.ok ? response.body : [])
+        setLoading(false)
     }
 
     async function fetchDenominations() {
@@ -76,7 +81,9 @@ export default function ResultsPage() {
     React.useEffect(() => {
         const denominationId = getDenominationId(selectedDenomination)
         const dateId = getDrawDateId(selectedDrawDate)
-        fetchBonds(denominationId, dateId)
+        if (denominationId && dateId) {
+            fetchBonds(denominationId, dateId)
+        }
     }, [api, selectedDrawDate])
 
     React.useEffect(() => {
@@ -141,18 +148,20 @@ export default function ResultsPage() {
                         </Select>
                     </FormControl>
                 </Stack>
-                <Grid
-                    data={bonds.map(bond => {
-                        return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
-                    })}
-                    autoWidth={false}
-                    columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
-                    search={true}
-                    sort={true}
-                    pagination={{
-                        enabled: true,
-                        limit: 10,
-                    }} />
+                {loading && <Center><CircularProgress /></Center>}
+                
+                    <Grid
+                        data={!loading ? bonds.map(bond => {
+                            return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
+                        }): []}
+                        autoWidth={false}
+                        columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
+                        search={true}
+                        sort={true}
+                        pagination={{
+                            enabled: true,
+                            limit: 10,
+                        }} />
             </Container>
         </motion.div>
     )
