@@ -11,7 +11,7 @@ import ProgressBar from "../utils/ProgessBar";
 import { useLoadingBar } from '../../contexts/LoadingBarProvider';
 import AlertMessage from "../utils/AlertMessage";
 import { useFlash } from '../../contexts/FlashProvider';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {motion} from 'framer-motion';
 // import { useLoadingContext } from "react-router-loading";
 import { createTheme } from '@mui/material/styles';

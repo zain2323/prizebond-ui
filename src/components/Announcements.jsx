@@ -4,7 +4,21 @@ import { Paper, Button, Box, Typography } from '@mui/material'
 import Container from '@mui/material/Container';
 import CustomButton from './utils/CustomButton';
 import { useApi } from "../contexts/ApiProvider"
+import { createTheme } from '@mui/material/styles';
 
+
+const theme = createTheme({
+    typography: {
+        h4: {
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 600
+        },
+        h5: {
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 600
+        }
+    }
+  });
 
 export default function Announcements() {
     const api = useApi();
@@ -50,9 +64,9 @@ function Item(props) {
             }}
         >
             <Container>
-                <Typography component={'div'} sx={{ p: 3 }} variant="h4" color="white">{props.item.name}</Typography>
-                <Typography component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.first}</Typography>
-                <Typography component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.second}</Typography>
+                <Typography theme={theme} component={'div'} sx={{ p: 3 }} variant="h4" color="white">{props.item.name}</Typography>
+                <Typography theme={theme} component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.first}</Typography>
+                <Typography theme={theme} component={'div'} sx={{ p: 3 }} variant="h5" color="white">{props.item.second}</Typography>
                 <CustomButton size="large" color="secondary" variant="outlined">
                     View Now
                 </CustomButton>
