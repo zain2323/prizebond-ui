@@ -45,7 +45,7 @@ export default function AnimatedRoutes() {
                                 }>
                                 </Route>
                                 <Route path="/draws-info" element={
-                                    <PublicRoute><DrawsInfoPage /></PublicRoute>
+                                    <DrawsInfoPage />
                                 }>
                                 </Route>
                                 <Route path="/results" element={
@@ -53,7 +53,7 @@ export default function AnimatedRoutes() {
                                 }>
                                 </Route>
                                 <Route path="/upcoming-results" element={
-                                    <PublicRoute><UpcomingResultsPage /></PublicRoute>
+                                    <UpcomingResultsPage />
                                 }>
                                 </Route>
                                 <Route path="*" element={

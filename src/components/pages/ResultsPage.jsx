@@ -160,7 +160,7 @@ export default function ResultsPage() {
                         sort={true}
                         pagination={{
                             enabled: true,
-                            limit: 10,
+                            limit: 50,
                         }} />
             </Container>
         </motion.div>

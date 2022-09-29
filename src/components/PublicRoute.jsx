@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserProvider';
 
 export default function PublicRoute({ children }) {
