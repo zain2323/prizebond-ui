@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Center from ".././utils/Center";
 import { useSearchParams } from "react-router-dom";
 
+
 export default function ResultsPage() {
     const queryParams = useSearchParams()
     const api = useApi();
