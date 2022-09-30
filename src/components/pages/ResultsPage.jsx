@@ -8,17 +8,13 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { useApi } from "../../contexts/ApiProvider";
 import { motion } from "framer-motion";
-import ProgressBar from "../utils/ProgessBar";
-import { useLoadingBar } from '../../contexts/LoadingBarProvider';
-import { useFlash } from '../../contexts/FlashProvider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Center from ".././utils/Center";
+import { useSearchParams } from "react-router-dom";
 
 export default function ResultsPage() {
+    const queryParams = useSearchParams()
     const api = useApi();
-    const loadingBar = useLoadingBar();
-    const flash = useFlash();
-
     const [bonds, setBonds] = React.useState([])
     const [denominations, setDenominations] = React.useState([])
     const [selectedDenomination, setSelectedDenomination] = React.useState("")
@@ -73,17 +69,19 @@ export default function ResultsPage() {
     }
 
     async function fetchDrawDate(price) {
-        const denomination_id = getDenominationId(price);
+        const denomination_id = getDenominationId(price) || 3;
         const response = await api.get(`/drawdate/${denomination_id}`);
         setDrawDate(response.ok ? response.body : null);
     }
 
     React.useEffect(() => {
-        const denominationId = getDenominationId(selectedDenomination)
-        const dateId = getDrawDateId(selectedDrawDate)
+        const denominationId = getDenominationId(selectedDenomination) || queryParams[0].get("denomination")
+        const dateId = getDrawDateId(selectedDrawDate) || queryParams[0].get("date")
         if (denominationId && dateId) {
             fetchBonds(denominationId, dateId)
         }
+
+
     }, [api, selectedDrawDate])
 
     React.useEffect(() => {
@@ -149,19 +147,19 @@ export default function ResultsPage() {
                     </FormControl>
                 </Stack>
                 {loading && <Center><CircularProgress /></Center>}
-                
-                    <Grid
-                        data={!loading ? bonds.map(bond => {
-                            return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
-                        }): []}
-                        autoWidth={false}
-                        columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
-                        search={true}
-                        sort={true}
-                        pagination={{
-                            enabled: true,
-                            limit: 50,
-                        }} />
+
+                <Grid
+                    data={!loading ? bonds.map(bond => {
+                        return [bond.denomination, bond.serial, bond.draw_date, bond.position, bond.prize, bond.draw_num, bond.location]
+                    }) : []}
+                    autoWidth={false}
+                    columns={['Denomination', 'Serial', 'Date', 'Position', 'Prize', 'Draw no', 'City']}
+                    search={true}
+                    sort={true}
+                    pagination={{
+                        enabled: true,
+                        limit: 50,
+                    }} />
             </Container>
         </motion.div>
     )

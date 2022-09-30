@@ -9,13 +9,13 @@ function getCards(results) {
   const cards = []
   for (let i = 0; i < results.length; i++) {
     cards.push((
-      <Grid key={i} xs={12} sm={6} lg={3} sx={{mb:2}}>
         <ResultCard
-          heading={`Rs.${results[i].denomination} denomination list`}
+          key={i}
+          heading={`Rs.${results[i].denomination.price} denomination list`}
           first={results[i].first}
           second={results[i].second}
+          to={`/results?denomination=${results[i].denomination.id}&date=${results[i].draw_date.id}`}
         />
-      </Grid>
     ))
   }
   return cards

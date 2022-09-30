@@ -38,7 +38,7 @@ export default function Announcements() {
             {
                 results.map((result, i) => {
                     const item = {
-                        name: `Result of Rs.${result.denomination} prize bond announced on ${new Date(result.draw_date).toDateString()}`,
+                        name: `Result of Rs.${result.denomination.price} prize bond announced on ${new Date(result.draw_date).toDateString()}`,
                         first: `1st Prize: ${result.first}`,
                         second: `2nd Prize: ${result.second.map((el, index) => " " + el)}`
 

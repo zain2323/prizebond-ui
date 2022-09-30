@@ -6,6 +6,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
+import { Link } from "react-router-dom"
+import Grid from '@mui/material/Unstable_Grid2';
+
 
 const theme = createTheme({
   palette: {
@@ -16,31 +19,35 @@ const theme = createTheme({
   },
 });
 
-export default function ResultCard({ heading, first, second }) {
+
+
+export default function ResultCard({ heading, first, second, to}) {
   return (
-    <Card sx={{ minWidth: 275, mb: 3, mr: 2, mt: 2 }}>
-      <Container maxWidth="sm">
-        <CardContent>
-          <Typography component={'div'} sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
-            {heading}
-          </Typography>
-          <Typography component={'div'} variant="h6">
-            1st Prize
-          </Typography>
-          <Typography component={'div'} sx={{ mb: 1.5 }} color="text.secondary">
-            {first}
-          </Typography>
-          <Typography component={'div'} variant="h6">
-            2nd Prize
-          </Typography>
-          <Typography component={'div'} color="text.secondary">
-            {second.map((el, index) => index < second.length -1 ? el + ", " : el)}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button theme={theme} size="small" color="primary" variant="outlined">View more</Button>
-        </CardActions>
-      </Container>
-    </Card>
+    <Grid xs={12} sm={6} lg={3} sx={{ mb: 2 }}>
+      <Card sx={{ minWidth: 275, mb: 3, mr: 2, mt: 2 }}>
+        <Container maxWidth="sm">
+          <CardContent>
+            <Typography component={'div'} sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
+              {heading}
+            </Typography>
+            <Typography component={'div'} variant="h6">
+              1st Prize
+            </Typography>
+            <Typography component={'div'} sx={{ mb: 1.5 }} color="text.secondary">
+              {first}
+            </Typography>
+            <Typography component={'div'} variant="h6">
+              2nd Prize
+            </Typography>
+            <Typography component={'div'} color="text.secondary">
+              {second.map((el, index) => index < second.length - 1 ? el + ", " : el)}
+            </Typography>
+          </CardContent>
+          <CardActions>
+              <Button component={Link} to={to} theme={theme} size="small" color="primary" variant="outlined">View more</Button>
+          </CardActions>
+        </Container>
+      </Card>
+    </Grid>
   );
 }
