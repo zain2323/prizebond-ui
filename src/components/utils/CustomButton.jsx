@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { Link } from "react-router-dom"
+
 
 const images = [
   {
@@ -64,7 +66,7 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
-export default function ButtonBases() {
+export default function ButtonBases({handleClick}) {
   return (
     <Container maxWidth="sm">
         <Box sx={{minWidth: 300, width: '100%' }}>
@@ -75,6 +77,8 @@ export default function ButtonBases() {
             style={{
                 width: image.width,
             }}
+            component={Link} 
+            to={handleClick}
             >
             <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
             <Image>
