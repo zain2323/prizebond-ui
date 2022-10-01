@@ -36,25 +36,16 @@ export default function AnimatedRoutes() {
                             <Navbar />
                             <Routes location={location} key={location.pathname}>
                                 <Route path='/' element={<HomePage />} />
+                                <Route path="/draws-info" element={<DrawsInfoPage />}></Route>
+                                <Route path="/upcoming-results" element={<UpcomingResultsPage />}></Route>
                                 <Route path="/login" element={
-                                    <PublicRoute><LoginPage /></PublicRoute>
-                                }>
+                                    <PublicRoute><LoginPage /></PublicRoute>}>
                                 </Route>
                                 <Route path="/register" element={
-                                    <PublicRoute><RegisterPage /></PublicRoute>
-                                }>
-                                </Route>
-                                <Route path="/draws-info" element={
-                                    <DrawsInfoPage />
-                                }>
+                                    <PublicRoute><RegisterPage /></PublicRoute>}>
                                 </Route>
                                 <Route path="/results" element={
-                                    <PublicRoute><ResultsPage /></PublicRoute>
-                                }>
-                                </Route>
-                                <Route path="/upcoming-results" element={
-                                    <UpcomingResultsPage />
-                                }>
+                                    <PublicRoute><ResultsPage /></PublicRoute>}>
                                 </Route>
                                 <Route path="*" element={
                                     <PrivateRoute>
