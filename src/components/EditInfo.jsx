@@ -8,7 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
-export default function EditInfo({api, flash, label, type}) {
+
+export default function EditInfo({api, flash, label, type, setUser}) {
     const [open, setOpen] = React.useState(false);
     const [updatedInfo, setUpdatedInfo] = React.useState("")
 
@@ -26,9 +27,10 @@ export default function EditInfo({api, flash, label, type}) {
     }
     
     async function handleSubmit() {
-        label === "Confirmed status" ? resendEmail() : updateInfo()
+        label === "Confirmed status" ? await resendEmail() : await updateInfo()
         setOpen(false);
         setUpdatedInfo("")
+        
     }
 
     async function updateInfo() {
@@ -41,8 +43,13 @@ export default function EditInfo({api, flash, label, type}) {
             password: password
         }
         const response =  await api.put("/about", body)
-        console.log(response)
-        flash("Success", "Updated successfully. Please refresh the page to see the changes.", "info")
+        if (response.ok) {
+            setUser(response.body)
+            flash("Success", "Your account info has been updated successfully.", "info")
+        }
+        else {
+            flash("Validation Failed", "Please check your input fields verifies the constraints", "error")
+        }
     }
 
     async function resendEmail() {
@@ -62,7 +69,6 @@ export default function EditInfo({api, flash, label, type}) {
                 <DialogTitle>{`Update ${label}`}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                       
                         {label === "Confirmed status" ?
                          "To update your confirmed status you need to verify your email address. Type 'Yes' below to resend confirmation email again." 
                          : `To change your ${label.toLowerCase()}, enter your new ${label.toLowerCase()} here.`}

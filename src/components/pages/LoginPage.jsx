@@ -57,6 +57,7 @@ export default function LoginPage() {
     const { login } = useUser()
     const navigate = useNavigate()
     const location = useLocation()
+    console.log(navigate)
 
     function handleChange(event) {
         const { name, value, type, checked } = event.target
