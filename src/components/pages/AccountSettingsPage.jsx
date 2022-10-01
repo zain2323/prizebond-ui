@@ -7,21 +7,20 @@ import { Container, Typography } from '@mui/material';
 import { Grid as GridTable } from 'gridjs-react';
 import "gridjs/dist/theme/mermaid.css";
 import { _ } from "gridjs-react";
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import Center from "../utils/Center";
 import { useUser } from '../../contexts/UserProvider'
 import { useApi } from '../../contexts/ApiProvider'
 import { motion } from "framer-motion";
 import EditInfo from "../EditInfo"
+import AlertMessage from "../utils/AlertMessage"
+import { useFlash } from '../../contexts/FlashProvider'
+
 
 export default function AccountSettingsPage() {
     const { user } = useUser()
     const api = useApi()
+    const flash = useFlash()
     const [info, setInfo] = React.useState([])
-
-    const editButton = _(
-        <EditInfo/>
-    )
 
     async function fetchInfo() {
         const response = await api.get("/user/bonds/info");
@@ -60,16 +59,16 @@ export default function AccountSettingsPage() {
                 mt: 5,
                 mb: 5
             }}>
-                
+                <AlertMessage/>
                 <Center>
                     <Typography sx={{ mb: 5 }} component={'div'} variant="h3">General Account Settings</Typography>
                 </Center>
                 <GridTable
                     data={[
-                        [_(<Typography component={'div'} variant="h6">Name</Typography>), _(<Typography component={'div'} sx={{ textTransform: "capitalize" }} variant="body1">{user.name}</Typography>),  _(<EditInfo label="Name" type="text" />)],
-                        [_(<Typography component={'div'} variant="h6">Email</Typography>), _(<Typography component={'div'} variant="body1">{user.email}</Typography>),  _(<EditInfo label="Email Address" type="email"/>)],
-                        [_(<Typography component={'div'} variant="h6">Password</Typography>), _(<Typography component={'div'} variant="body1">**********</Typography>),  _(<EditInfo label="Password" type="password" />)],
-                        [_(<Typography component={'div'} variant="h6">Confirmed</Typography>), _(<Typography component={'div'} variant="body1">{user.confirmed ? "Confirmed" : "Not Confirmed"}</Typography>),  _(<EditInfo label="Confirmed status" type="text"/>)],
+                        [_(<Typography component={'div'} variant="h6">Name</Typography>), _(<Typography component={'div'} sx={{ textTransform: "capitalize" }} variant="body1">{user.name}</Typography>),  _(<EditInfo api={api} flash={flash} label="Name" type="text" />)],
+                        [_(<Typography component={'div'} variant="h6">Email</Typography>), _(<Typography component={'div'} variant="body1">{user.email}</Typography>),  _(<EditInfo api={api} flash={flash} label="Email Address" type="email"/>)],
+                        [_(<Typography component={'div'} variant="h6">Password</Typography>), _(<Typography component={'div'} variant="body1">**********</Typography>),  _(<EditInfo api={api} flash={flash} label="Password" type="password" />)],
+                        [_(<Typography component={'div'} variant="h6">Confirmed</Typography>), _(<Typography component={'div'} variant="body1">{user.confirmed ? "Confirmed" : "Not Confirmed"}</Typography>),  _(<EditInfo api={api} flash={flash} label="Confirmed status" type="text"/>)],
                         [_(<Typography component={'div'} variant="h6">Registered At</Typography>), _(<Typography component={'div'} variant="body1">{new Date(user.registered_at).toDateString()}</Typography>)]
                     ]}
 

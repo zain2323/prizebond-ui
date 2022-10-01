@@ -8,9 +8,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
-
-export default function EditInfo({label, type}) {
+export default function EditInfo({api, flash, label, type}) {
     const [open, setOpen] = React.useState(false);
+    const [updatedInfo, setUpdatedInfo] = React.useState("")
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -19,6 +19,36 @@ export default function EditInfo({label, type}) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleChange = (event) => {
+        const {value} = event.target
+        setUpdatedInfo(value)
+    }
+    
+    async function handleSubmit() {
+        label === "Confirmed status" ? resendEmail() : updateInfo()
+        setOpen(false);
+        setUpdatedInfo("")
+    }
+
+    async function updateInfo() {
+        const name = label === "Name" ? updatedInfo : null
+        const email = label === "Email Address" ? updatedInfo : null
+        const password = label === "Password" ? updatedInfo : null
+        const body = {
+            name: name,
+            email: email,
+            password: password
+        }
+        const response =  await api.put("/about", body)
+        console.log(response)
+        flash("Success", "Updated successfully. Please refresh the page to see the changes.", "info")
+    }
+
+    async function resendEmail() {
+        flash("Success", "We have sent you a confirmation email. Please check your inbox and follow the onscreen prompts.", "info")
+        console.log("sending email")
+    }
 
     return (
         <div>
@@ -44,12 +74,15 @@ export default function EditInfo({label, type}) {
                         label={label}
                         type={type}
                         fullWidth
+                        name="updatedInfo"
+                        value={updatedInfo}
+                        onChange={handleChange}
                         variant="standard"
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>{label === "Confirmed status" ? "Resend Email" : "Update" }</Button>
+                    <Button onClick={handleSubmit}>{label === "Confirmed status" ? "Resend Email" : "Update" }</Button>
                 </DialogActions>
             </Dialog>
         </div>
