@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { useUser } from "../contexts/UserProvider";
-import AccountMenu from "./AccountMenu"
+import AccountMenu from "./AccountMenu";
+import NotificationMenu from "./NotificationMenu";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
@@ -84,7 +85,7 @@ const Navbar = () => {
               padding: 0.5
             }
           }}>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1}} />
+            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -102,7 +103,7 @@ const Navbar = () => {
             >
               Fast Bond
             </Typography>
-            </Stack>
+          </Stack>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -193,9 +194,9 @@ const Navbar = () => {
                     key={page}
                     onClick={handleCloseNavMenu}
                     sx={{
-                       color: 'white',
-                       display: 'block',
-                      }}
+                      color: 'white',
+                      display: 'block',
+                    }}
                   >
                     {page}
                   </Button>
@@ -238,18 +239,7 @@ const Navbar = () => {
               ))}
             {user !== null &&
               <>
-                <Tooltip title="Notifications">
-                  <IconButton>
-                    <Badge theme={theme} color="primary" overlap="circular" badgeContent={99}>
-                      <NotificationsNoneIcon
-                        sx={{
-                          mt: 1.2,
-                          color: "white"
-                        }} />
-                    </Badge>
-
-                  </IconButton>
-                </Tooltip>
+                <NotificationMenu />
                 <AccountMenu logout={logOut} />
               </>
             }
