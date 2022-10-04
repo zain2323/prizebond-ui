@@ -9,11 +9,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Box from '@mui/material/Box';
 import { Link as RouterLink } from 'react-router-dom';
 import { useApi } from "../contexts/ApiProvider";
+import { io } from "socket.io-client";
 
 const badgeTheme = createTheme({
   palette: {
@@ -47,15 +47,20 @@ const typographyTheme = createTheme({
 });
 
 
-export default function NotificarionMenu() {
+export default function NotificationMenu() {
+  const socket = io("http://localhost:5000")
   const api = useApi()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [notifications, setNotifications] = React.useState([])
+  
 
   const handleClick = async (event) => {
     setAnchorEl(event.currentTarget);
-    const response = await api.put("/notifications", notifications)
+    // const response = await api.put("/notifications", notifications)
+    socket.emit("update_seen_status",
+                 localStorage.getItem('accessToken'),
+                 notifications)
   };
 
   const handleClose = () => {
@@ -63,8 +68,10 @@ export default function NotificarionMenu() {
   };
 
   async function fetchNotifications() {
-    const response = await api.get("/notifications")
-    setNotifications(response.ok ? response.body : [])
+    socket.emit("fetchNotifications", localStorage.getItem('accessToken'))
+    socket.on("notifications", response => {
+      setNotifications(response ? response : [])
+    })
   }
 
   React.useEffect(() => {
@@ -122,7 +129,7 @@ export default function NotificarionMenu() {
         {
           notifications.map((n) => {
             return (
-              <MenuItem onClick={() => alert("clicked")}>
+              <MenuItem key={n.id} onClick={() => alert("clicked")}>
                 <Box sx={{
                   width: "100%",
                 }}>
