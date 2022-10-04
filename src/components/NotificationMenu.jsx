@@ -13,7 +13,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Box from '@mui/material/Box';
 import { Link as RouterLink } from 'react-router-dom';
 import { useApi } from "../contexts/ApiProvider";
-import { io } from "socket.io-client";
+import { useSocket } from "../contexts/SocketProvider";
 
 const badgeTheme = createTheme({
   palette: {
@@ -48,7 +48,7 @@ const typographyTheme = createTheme({
 
 
 export default function NotificationMenu() {
-  const socket = io("http://localhost:5000")
+  const socket = useSocket()
   const api = useApi()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -57,7 +57,6 @@ export default function NotificationMenu() {
 
   const handleClick = async (event) => {
     setAnchorEl(event.currentTarget);
-    // const response = await api.put("/notifications", notifications)
     socket.emit("update_seen_status",
                  localStorage.getItem('accessToken'),
                  notifications)
@@ -88,7 +87,7 @@ export default function NotificationMenu() {
             <Badge theme={badgeTheme} color="primary" overlap="circular" badgeContent={notifications.length}>
               <NotificationsNoneIcon
                 sx={{
-                  mt: 1.2,
+                  mt: 0.2,
                   color: "white"
                 }} />
             </Badge>
@@ -107,8 +106,26 @@ export default function NotificationMenu() {
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
           },
-        }}
+        }}  
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
@@ -156,7 +173,6 @@ export default function NotificationMenu() {
             You are all caught!
           </MenuItem>
         }
-
       </Menu>
     </div>
   );
